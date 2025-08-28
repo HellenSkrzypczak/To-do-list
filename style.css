@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: 'Inter', sans-serif;
+}
+body{  
+    width: 100%;
+    margin-top: 30px;
+}
+#grid-principal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 80%;
+    border-radius: 10px;
+    /*box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);*/
+    padding: 20px; 
+}
+header{
+    padding-bottom: 30px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.74);
+}
+header > p{
+    color: rgba(0, 0, 0, 0.486);
+    font-size: 15px;
+}
+
+#cadastro-tarefas{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 20px;
+}
+
+.titulo{
+    padding-bottom: 2px;
+    color: rgb(37, 37, 37);
+    font-size: 16px;
+}
+input{
+    border-color: rgba(96, 97, 97, 0.192);
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px 5px 10px 5px;    
+}
+#inputDescricao {
+    padding-bottom: 50px;  
+}
+
+.input-date-btn{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+#inputData{
+    color: rgb(143, 145, 145);
+    font-size: 14px;
+    max-width: 50%;
+    justify-content: space-between;
+}
+#btnCadastrar{
+    border: none;
+    padding: 10px 15px 10px 15px;
+    border-radius: 8px ;
+    background-color: rgb(255, 174, 0);
+    font-size: 14px;
+}
+
+/**********GRID TAREFA*************/
+#grid-lista-tarefas{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 50%;
+    margin-top: 20px;
+}
+ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+.tarefa{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);
+    padding: 10px;
+}
+.tarefa-titulo{
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+.tarefa-descricao, .tarefa-data{
+    font-size: 13px;
+    color: rgb(133, 134, 136);
+}
+.div-tarefa{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 8px;
+}
+.tarefa-data{
+    display: block; /* garante que o span ocupe a linha toda */
+    text-align: left;
+    padding: 5px;
+}
+
+.btnExcluir, .btnEditar {
+    border: none;
+    background-color:rgb(255, 255, 255);
+    padding-right: 2px;
+}
+.btnImg{
+    max-width: 15px;
+    max-height: 15px;
+}
+
+/***************GRID STATUS********************/
+#grid-status{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);
+    margin: 0 auto;
+    padding: 20px
+}

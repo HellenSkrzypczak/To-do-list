@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de tarefas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    
+    <script src="script.js"></script>
+    
+</head>
+<body>
+    <main>
+        <div id="grid-principal">
+            <header>
+                <h1>Cadastro de Tarefas</h1>
+                <p>Gerencie suas tarefas diárias</p>
+            </header>
+        
+            <section id="cadastro-tarefas">
+                <div>
+                    <div class="titulo"><label for="titulo">Tarefa</label></div>
+                    <input type="text" id="inputTitulo" name="tituloDaTarefa" placeholder="Digite o título da tarefa">
+                </div>
+                <div>
+                    <div class="titulo"><label for="descricao">Descrição</label></div>
+                    <input type="text" id="inputDescricao" name="descricaoDaTarefa" placeholder="Digite a descrição da tarefa">
+                </div>
+                <div>
+                    <div class="titulo"><label for="data">Data de entrega</label></div>
+                    <div class="input-date-btn">
+                        <input type="date" id="inputData" name="dataDeVenciemtno">
+                        <button id="btnCadastrar">Cadastrar</button>
+                        <button id="btnFiltrar">Filtrar</button>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="grid-status">
+            <div>
+                <h3>Pendente</h3>
+            </div>
+            <div>
+                <h3>Em andamento</h3>
+            </div>
+            <div>
+                <h3>Concluída</h3>
+            </div>
+        </section>
+
+        <section id="grid-lista-tarefas">
+                <ul id="lista-tarefas"></ul>
+        </section>
+        
+    </main>
+</body>
+</html>
