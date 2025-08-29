@@ -16,10 +16,10 @@ body{
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
-    width: 80%;
+    width: 60%;
     border-radius: 10px;
     /*box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);*/
-    padding: 20px; 
+    padding: 20px 0px 50px 0px; 
 }
 header{
     padding-bottom: 30px;
@@ -69,7 +69,7 @@ input{
     border: none;
     padding: 10px 15px 10px 15px;
     border-radius: 8px ;
-    background-color: rgb(255, 174, 0);
+    background-color: #ffae00;
     font-size: 14px;
 }
 
@@ -81,21 +81,25 @@ input{
     width: 50%;
     margin-top: 20px;
 }
-ul {
-    display: flex;
-    flex-direction: column;
-    gap: 20px
-}
 .tarefa{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    border: 1px solid rgba(112, 112, 112, 0.322);
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);
-    padding: 10px;
+    padding: 20px;
+    flex: 1;
+    gap: 30px;
 }
+
+.div-tarefa-descri{
+    min-width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
 .tarefa-titulo{
-    font-size: 16px;
-    padding-bottom: 5px;
+    font-size: 19px;
+    padding-bottom: 8px;
 }
 .tarefa-descricao, .tarefa-data{
     font-size: 13px;
@@ -104,17 +108,12 @@ ul {
 .div-tarefa{
     display: flex;
     flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    padding-top: 8px;
+    gap: 30px;
+    height: 100%;
 }
-.tarefa-data{
-    display: block; /* garante que o span ocupe a linha toda */
-    text-align: left;
-    padding: 5px;
-}
-
 .btnExcluir, .btnEditar {
+    display: flex;
+    flex-direction: row;
     border: none;
     background-color:rgb(255, 255, 255);
     padding-right: 2px;
@@ -124,14 +123,43 @@ ul {
     max-height: 15px;
 }
 
-/***************GRID STATUS********************/
-#grid-status{
+/***************GRID FILTRO********************/
+#grid-filtro{ 
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);
+    padding-bottom: 15px;
+}
+.div-filtro{
     display: flex;
     flex-direction: row;
-    justify-content:space-between;
-    width: 80%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 0px 20px 0px 20px;
     margin: 0 auto;
-    padding: 20px
+}
+.div-filtro > div {
+    flex: 1;
+}
+#status{
+    min-width: 500px;
+    border-color: rgba(96, 97, 97, 0.192);
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px 5px 10px 5px;
+}
+#lblFiltro{
+    font-size: 12px;
+    max-width: 30px;
+}
+#btnFiltrar{
+    border: none;
+    background-color: rgb(255, 255, 255);
+    padding: 8px;
+    margin-top: 18.89px;
+}
+#btnFiltrar > img{
+    max-width: 30px;
 }

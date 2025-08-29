@@ -33,24 +33,32 @@
                     <div class="input-date-btn">
                         <input type="date" id="inputData" name="dataDeVenciemtno">
                         <button id="btnCadastrar">Cadastrar</button>
-                        <button id="btnFiltrar">Filtrar</button>
-                        
                     </div>
                 </div>
             </div>
+        </div>
 
-        </section>
-
-        <section id="grid-status">
-            <div>
-                <h3>Pendente</h3>
-            </div>
-            <div>
-                <h3>Em andamento</h3>
-            </div>
-            <div>
-                <h3>Concluída</h3>
-            </div>
+        <section id="grid-filtro">
+            <div class="div-filtro">
+                <div>
+                    <label for="status" id="lblFiltro">Status</label>
+                    <select id="status" name="status">
+                        <option value="">Selecione...</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="andamento">Em andamento</option>
+                        <option value="concluida">Concluída</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="data-inicio" id="lblFiltro">Data inicio</label>
+                    <input type="date" id="inpDataInicio">
+                </div>
+                <div>
+                    <label for="data-fim" id="lblFiltro">Data fim</label>
+                    <input type="date" id="inpDataFim">
+                </div>
+                <button id="btnFiltrar"><img src="https://img.icons8.com/?size=100&id=vdK7simX78vX&format=png&color=000000" alt=""></button>
+            </div>  
         </section>
 
         <section id="grid-lista-tarefas">

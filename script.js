@@ -19,17 +19,28 @@ $(document).ready(function() {
 
         const li = $(`
             <li class="tarefa">
-                <span class="tarefa-titulo"><strong>${inputTitulo}</strong></span>
-                <div class="divInput">
+                <div class="div-tarefa-descri">
+                    <span class="tarefa-titulo"><strong>${inputTitulo}</strong></span>
                     <span class="tarefa-descricao">${inputDescricao}</span>
                 </div>
+
                 <div class="div-tarefa">
-                    <div><span class="tarefa-data">${data.format("DD/MM/YYYY")}</span></div>
-                    <div>
-                        <button class="btnEditar"><img src="https://img.icons8.com/?size=100&id=71201&format=png&color=B8B8B8" alt="editar" class="btnImg"></button>
-                        <button class="btnExcluir"><img src="https://img.icons8.com/?size=100&id=68064&format=png&color=B8B8B8" alt="excluir" class="btnImg"></button>
+                    <div class="div-data">
+                        <span>${data.format("DD/MM/YYYY")}</span>
                     </div>
+                    <div>
+                        <select id="status-tarefa" name="status">
+                            <option value="pendente">Pendente</option>
+                            <option value="andamento">Em andamento</option>
+                            <option value="concluida">Concluída</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btnEditar"><img src="https://img.icons8.com/?size=100&id=71201&format=png&color=B8B8B8" alt="editar" class="btnImg"></button>
+                    <button class="btnExcluir"><img src="https://img.icons8.com/?size=100&id=68064&format=png&color=B8B8B8" alt="excluir" class="btnImg"></button>
                 </div>
+                
+
             </li>
         `);
         
