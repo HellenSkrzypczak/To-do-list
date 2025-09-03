@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
+/*ESTRUTURA GERAL*/
 *{
     margin: 0;
     padding: 0;
@@ -7,129 +8,76 @@
     list-style: none;
     font-family: 'Inter', sans-serif;
 }
-body{  
-    width: 100%;
-    margin-top: 30px;
-}
-#grid-principal{
+
+/*MAIN*/
+.grid-principal{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
-    width: 60%;
-    border-radius: 10px;
-    /*box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);*/
-    padding: 20px 0px 50px 0px; 
+    width: 50vw;
+    padding: 1.5rem 0; 
 }
-header{
-    padding-bottom: 30px;
+
+.header-principal{
+    padding-bottom: 2rem;
     text-align: center;
     color: rgba(0, 0, 0, 0.74);
 }
-header > p{
+.header-principal > p {
     color: rgba(0, 0, 0, 0.486);
-    font-size: 15px;
 }
 
-#cadastro-tarefas{
+.cadastro-tarefas{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
     gap: 20px;
 }
-
 .titulo{
     padding-bottom: 2px;
     color: rgb(37, 37, 37);
-    font-size: 16px;
+    display: inline-block;
+    font-weight: bold;
 }
-input{
+.div-titulo{
+    display: inline-block;
+}
+.input{
     border-color: rgba(96, 97, 97, 0.192);
+    color: rgb(143, 145, 145);
     border-radius: 5px;
     width: 100%;
-    padding: 5px 5px 10px 5px;    
+    min-width: 9rem;
+    padding: 0.5rem;    
 }
-#inputDescricao {
-    padding-bottom: 50px;  
+.data{
+    max-width: 20%;
 }
-
-.input-date-btn{
+.div-data-btn{
     display: flex;
     flex-direction: row;
     gap: 50px;
-}
-
-#inputData{
-    color: rgb(143, 145, 145);
-    font-size: 14px;
-    max-width: 50%;
     justify-content: space-between;
 }
-#btnCadastrar{
+.btnCadastro{
     border: none;
-    padding: 10px 15px 10px 15px;
+    padding: 0.5rem;
     border-radius: 8px ;
     background-color: #ffae00;
-    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btnCadastro:hover{
+    background-color: #ffbc2a;
+    color: aliceblue;
 }
 
-/**********GRID TAREFA*************/
-#grid-lista-tarefas{
-    display: flex;
-    flex-direction: column;
+/**GRID FILTRO**/
+.grid-filtro{ 
+    width: 50vw;
     margin: 0 auto;
-    width: 50%;
-    margin-top: 20px;
-}
-.tarefa{
-    display: flex;
-    flex-direction: row;
-    border: 1px solid rgba(112, 112, 112, 0.322);
-    border-radius: 10px;
-    padding: 20px;
-    flex: 1;
-    gap: 30px;
-}
-
-.div-tarefa-descri{
-    min-width: 50%;
-    display: flex;
-    flex-direction: column;
-}
-
-.tarefa-titulo{
-    font-size: 19px;
-    padding-bottom: 8px;
-}
-.tarefa-descricao, .tarefa-data{
-    font-size: 13px;
-    color: rgb(133, 134, 136);
-}
-.div-tarefa{
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    height: 100%;
-}
-.btnExcluir, .btnEditar {
-    display: flex;
-    flex-direction: row;
-    border: none;
-    background-color:rgb(255, 255, 255);
-    padding-right: 2px;
-}
-.btnImg{
-    max-width: 15px;
-    max-height: 15px;
-}
-
-/***************GRID FILTRO********************/
-#grid-filtro{ 
-    width: 50%;
-    margin: 0 auto;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(177, 176, 176, 0.2);
-    padding-bottom: 15px;
+    flex-wrap: wrap
 }
 .div-filtro{
     display: flex;
@@ -137,49 +85,173 @@ input{
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    padding: 0px 20px 0px 20px;
+    padding: 0.5rem 1rem 1rem 1rem;
     margin: 0 auto;
-    min-width: 500px;
+    flex-wrap: wrap;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.144);
 }
 .div-filtro > div {
     flex: 1;
 }
-#status{
-    min-width: 500px;
-    border-color: rgba(96, 97, 97, 0.192);
-    border-radius: 5px;
-    width: 100%;
-    padding: 5px 5px 10px 5px;
+
+.label{
+    font-size: 0.8rem;
 }
-#lblFiltro{
-    font-size: 12px;
-    max-width: 30px;
+.div-button-filtro{
+     flex: 0 0 10%;
 }
-#btnFiltrar{
+.btnFiltro{
+    flex: 0 0 10%;
     border: none;
-    background-color: rgb(255, 255, 255);
-    padding: 8px;
-    margin-top: 18.89px;
+    background: transparent;
+    cursor: pointer; 
 }
-#btnFiltrar > img{
-    max-width: 30px;
+.la-search{
+    margin-top: 1rem;
+    font-size: 2rem;
+}
+
+/**GRID TAREFA**/
+.grid-lista-tarefas{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 50vw;
+    margin-top: 20px;
+}
+.tarefa{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(112, 112, 112, 0.322);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+li.tarefa:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.div-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.div-header > .titulo{
+    color: rgb(37, 37, 37);
+    font-size: 1.2rem;
+}
+.div-data-section-btn{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+.text{
+    font-size: 0.9rem;
+}
+.input-status{
+    border: none;
+    border-radius: 10px;
+    padding: 0.2rem 0.1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #86868675;
+}
+.div-btn{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.btnTarefa {
+    display: flex;
+    flex-direction: row;
+    border: none;
+    background-color:rgb(255, 255, 255);
+    padding-right: 2px;
+    cursor: pointer; 
+}
+.la-pencil-alt, .la-trash{
+    font-size: 20px;
+    height: auto;
+}
+.tarefa-descricao{
+    color: rgb(143, 145, 145);
+}
+
+@media (max-width: 1200px) { 
+    .div-header{
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .titulo{
+        padding-bottom: 0.5rem;
+    }
+    .div-data-section-btn{
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+    }
+    .div-btn{
+        display: flex;
+        flex-direction: row;
+    }
+    /*GRID FILTRO*/
+    .div-filtro{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .div-campo-media{
+       width: 100%; 
+    }
+}
+
+@media (max-width: 992px) {
+    /*GRID FILTRO*/
+    .header-principal{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    .div-data-btn{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .data{
+        min-width: 100%;
+    }
+    .div-filtro{
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        margin-top: 20px;
+    }
+    .status{
+        width: 100%;
+    }
+    .tarefa-descricao{
+        text-align: justify;
+    }
 }
 
 @media (max-width: 768px) {
-    #grid-principal{
-        max-width: 700px;
-    }
-    .div-filtro{
-        min-width: 100%;
+        /*GRID TAREFA*/
+    .div-data-section-btn{
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
         align-items: flex-start;
-        padding: 20px;
+        gap: 0.5rem;
     }
-    #inpDataInicio, #inpDataFim, #status{
-        display: block;
-        min-width: 100px;
-        max-width: 100%;
+    .titulo{
+        padding-bottom: 0.5rem;
     }
-  
+    
 }

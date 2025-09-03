@@ -19,33 +19,39 @@ $(document).ready(function() {
 
         const li = $(`
             <li class="tarefa">
-                <div class="div-tarefa-descri">
-                    <span class="tarefa-titulo"><strong>${inputTitulo}</strong></span>
-                    <span class="tarefa-descricao">${inputDescricao}</span>
-                </div>
-
-                <div class="div-tarefa">
-                    <div class="div-data">
-                        <span>${data.format("DD/MM/YYYY")}</span>
-                    </div>
-                    <div>
-                        <select id="status-tarefa" name="status">
-                            <option value="pendente">Pendente</option>
-                            <option value="andamento">Em andamento</option>
-                            <option value="concluida">Concluída</option>
-                        </select>
-                    </div>
-                    
-                    <button class="btnEditar"><img src="https://img.icons8.com/?size=100&id=71201&format=png&color=B8B8B8" alt="editar" class="btnImg"></button>
-                    <button class="btnExcluir"><img src="https://img.icons8.com/?size=100&id=68064&format=png&color=B8B8B8" alt="excluir" class="btnImg"></button>
-                </div>
+                <div class="div-header">
+                    <div class="div-titulo"><label class="titulo"><strong>${inputTitulo}</strong></label></div>
                 
-
+                    <div class="div-data-section-btn">
+                        <div class="div-data">
+                            <p class="text">${data.format("DD/MM/YYYY")}</p>
+                        </div>
+                        <div>
+                            <select id="status-tarefa" class="input-status">
+                                <option value="pendente">Pendente</option>
+                                <option value="andamento">Em andamento</option>
+                                <option value="concluida">Concluída</option>
+                            </select>
+                        </div>
+                        
+                        <div class="div-btn">
+                            <button id="btnEditar" class="btnTarefa"><i class="las la-pencil-alt"></i></button>
+                            <button id="btnExcluir" class="btnTarefa"><i class="las la-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="div-descricao">
+                    <p class="tarefa-descricao">${inputDescricao}</p>
+                </div>
             </li>
         `);
         
         $('#lista-tarefas').append(li);
         limparCampos();
+    });
+
+    $('#btnEditar').click(() => {
+
     });
 
     function limparCampos(){

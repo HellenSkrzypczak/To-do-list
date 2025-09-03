@@ -7,61 +7,61 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    
     <script src="script.js"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+
 </head>
 <body>
     <main>
-        <div id="grid-principal">
-            <header>
+        <div class="grid-principal">
+            <header class="header-principal">
                 <h1>Cadastro de Tarefas</h1>
                 <p>Gerencie suas tarefas diárias</p>
             </header>
         
-            <section id="cadastro-tarefas">
+            <section class="cadastro-tarefas">
                 <div>
-                    <div class="titulo"><label for="titulo">Tarefa</label></div>
-                    <input type="text" id="inputTitulo" name="tituloDaTarefa" placeholder="Digite o título da tarefa">
+                    <label class="titulo" for="titulo">Tarefa</label>
+                    <input type="text" id="inputTitulo" class="input" name="tituloDaTarefa" placeholder="Digite o título da tarefa">
                 </div>
                 <div>
-                    <div class="titulo"><label for="descricao">Descrição</label></div>
-                    <input type="text" id="inputDescricao" name="descricaoDaTarefa" placeholder="Digite a descrição da tarefa">
+                    <label class="titulo"for="descricao">Descrição</label>
+                    <textarea id="inputDescricao" rows="5" class="input descricao" placeholder="Digite a descrição da tarefa"></textarea>
                 </div>
                 <div>
-                    <div class="titulo"><label for="data">Data de entrega</label></div>
-                    <div class="input-date-btn">
-                        <input type="date" id="inputData" name="dataDeVenciemtno">
-                        <button id="btnCadastrar">Cadastrar</button>
+                    <label class="titulo" for="data">Data de entrega</label>
+                    <div class="div-data-btn">
+                        <input type="date" id="inputData" class="input data" name="dataDeVenciemtno">
+                        <button id="btnCadastrar" class="btnCadastro">Cadastrar</button>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
-        <section id="grid-filtro">
+        <section class="grid-filtro">
             <div class="div-filtro">
-                <div>
-                    <label for="status" id="lblFiltro">Status</label>
-                    <select id="status" name="status">
+                <div class="div-campo-media">
+                    <label for="status" class="label">Status</label>
+                    <select id="status"  class="input status">
                         <option value="">Selecione...</option>
                         <option value="pendente">Pendente</option>
                         <option value="andamento">Em andamento</option>
                         <option value="concluida">Concluída</option>
                     </select>
                 </div>
-                <div>
-                    <label for="data-inicio" id="lblFiltro">Data inicio</label>
-                    <input type="date" id="inpDataInicio">
+                <div class="div-campo-media">
+                    <label for="data-inicio" class="label">Data inicio</label>
+                    <input type="date" id="inpDataInicio" class="input" >
                 </div>
-                <div>
-                    <label for="data-fim" id="lblFiltro">Data fim</label>
-                    <input type="date" id="inpDataFim">
+                <div class="div-campo-media">
+                    <label for="data-fim" class="label">Data fim</label>
+                    <input type="date" id="inpDataFim" class="input">
                 </div>
-                <button id="btnFiltrar"><img src="https://img.icons8.com/?size=100&id=vdK7simX78vX&format=png&color=000000" alt=""></button>
+                <button id="btnFiltrar" class="btnFiltro" ><i class="las la-search"></i></button>
             </div>  
         </section>
 
-        <section id="grid-lista-tarefas">
+        <section class="grid-lista-tarefas">
                 <ul id="lista-tarefas"></ul>
         </section>
         
