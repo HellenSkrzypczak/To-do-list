@@ -54,6 +54,9 @@
 .data{
     max-width: 20%;
 }
+.descricao{
+   resize: vertical; 
+}
 .div-data-btn{
     display: flex;
     flex-direction: row;
@@ -178,6 +181,15 @@ li.tarefa:not(:last-child) {
 }
 .tarefa-descricao{
     color: rgb(143, 145, 145);
+}
+/**MODAL**/
+.modal{
+    position:fixed; 
+    top:30%; left:40%; 
+    background:#fff; 
+    border:1px solid #ccc; 
+    padding:20px;
+
 }
 
 @media (max-width: 1200px) { 
