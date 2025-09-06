@@ -158,4 +158,8 @@ $(document).ready(function() {
 
         renderizarTarefas(filtradas);
     });
+    
+    $('#btnLimparFiltro').click(() => {
+        renderizarTarefas(tarefas);
+    })
 });

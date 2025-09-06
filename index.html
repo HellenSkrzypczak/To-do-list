@@ -29,7 +29,7 @@
                     <textarea id="inputDescricao" rows="5" class="input descricao" placeholder="Digite a descrição da tarefa"></textarea>
                 </div>
                 <div>
-                    <label class="titulo" for="inputData">Data de entrega</label>
+                    <label class="titulo" for="inputData">Data</label>
                     <div class="div-data-btn">
                         <input type="date" id="inputData" class="input data" name="dataDeVenciemtno">
                         <button id="btnCadastrar" class="btnCadastro">Cadastrar</button>
@@ -57,14 +57,15 @@
                     <label for="inpDataFim" class="label">Data fim</label>
                     <input type="date" id="inpDataFim" class="input">
                 </div>
-                <button id="btnFiltrar" class="btnFiltro" ><i class="las la-search"></i></button>
+                <div class="div-btns-filtro">
+                    <button id="btnFiltrar" class="btnFiltro" ><i class="las la-search"></i></button>
+                    <button id="btnLimparFiltro" class="btnLimpar"><i class="las la-undo-alt"></i></button>
+                </div>
             </div>  
-        </section>
-
-        <section class="grid-lista-tarefas">
+            <section class="grid-lista-tarefas">
                 <ul id="lista-tarefas"></ul>
-        </section>
-        
+            </section>
+        </section> 
     </main>
 </body>
 </html>
