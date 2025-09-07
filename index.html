@@ -32,7 +32,7 @@
                     <label class="titulo" for="inputData">Data</label>
                     <div class="div-data-btn">
                         <input type="date" id="inputData" class="input data" name="dataDeVenciemtno">
-                        <button id="btnCadastrar" class="btnCadastro">Cadastrar</button>
+                        <button id="btnCadastrar" class="btn btnCadastro">Cadastrar</button>
                     </div>
                 </div>
             </section>
@@ -66,6 +66,44 @@
                 <ul id="lista-tarefas"></ul>
             </section>
         </section> 
+
+        <div class="div-modal">
+            <dialog id="modalEditar" class="modal">
+                <form method="dialog" class="form-modal">
+                    <h2 class="tituloModal">Editar tarefa</h2>
+                    <div>
+                        <label class="titulo" for="modalTitulo">Tarefa</label>
+                        <input type="text" id="modalTitulo" class="input" name="tituloDaTarefa">
+                    </div>
+                    <div>
+                        <label class="titulo" for="modalDescricao">Descrição</label>
+                        <textarea id="modalDescricao" rows="5" class="input descricao"></textarea>
+                    </div>
+                    <div class="grid-data-status">
+                        <div class="div-data-status">
+                            <label class="titulo" for="modalData">Data</label>
+                            <input type="date" id="modalData" class="input data" name="dataDeVencimento">
+                        </div>
+
+                        <div class="div-data-status">
+                            <label for="status" class="titulo">Status</label>
+                            <select id="modalStatus"  class="input">
+                                <option value="">Selecione...</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="andamento">Em andamento</option>
+                                <option value="concluida">Concluída</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <menu class="menu-modal">
+                        <button value="cancelar" id="btnCancelar" class="btn">Cancelar</button>
+                        <button value="confirmar" id="btnConfirmar" class="btn">Confirmar</button>
+                    </menu>
+                </form>
+            </dialog>
+        </div>
+
     </main>
 </body>
 </html>

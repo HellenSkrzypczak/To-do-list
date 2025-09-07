@@ -105,27 +105,39 @@ $(document).ready(function() {
     $('#lista-tarefas').on('click', '#btnEditar', function() {
         const index = $(this).closest('.tarefa').index();
         const tarefa = tarefas[index];
-        
-        const modal = $(`
-            <div class="modal">
-                <h2>Editar tarefa</h2>
-                <div>
-                    <label class="titulo" for="titulo">Tarefa</label>
-                    <input type="text" id="inputTitulo" class="input" name="tituloDaTarefa" value="${tarefa.titulo}">
-                </div>
-                <div>
-                    <label class="titulo" for="inputDescricao">Descrição</label>
-                    <textarea id="inputDescricao" rows="5" class="input descricao" value="${tarefa.descricao}></textarea>
-                </div>
-                <div>
-                    <label class="titulo" for="inputData">Data de entrega</label>     
-                    <input type="date" id="inputData" class="input data" name="dataDeVenciemtno" value="${tarefa.data}">
-                </div>
-            </div>    
-        `);
 
-        $('body').append(modal);
+        const modal = document.getElementById("modalEditar");
+        
+        $("#modalTitulo").val(tarefa.titulo);
+        $("#modalDescricao").val(tarefa.descricao);
+        $("#modalData").val(moment(tarefa.data, "YYYY-MM-DD").format("YYYY-MM-DD"));
+        $("#modalStatus").val(tarefa.status);
+
+        modal.showModal();
+
+        // Remove eventos anteriores para evitar duplicação
+        $("#btnConfirmar").off("click").on("click", function(e) {
+            e.preventDefault(); // previne comportamento padrão do form
+
+            // Atualiza os dados da tarefa
+            tarefa.titulo = $("#modalTitulo").val();
+            tarefa.descricao = $("#modalDescricao").val();
+            tarefa.data = $("#modalData").val();
+            tarefa.status = $("#modalStatus").val();
+
+            modal.close();       // fecha o modal
+            renderizarTarefas(tarefas); // atualiza a lista
+            alert("Tarefa atualizada!");
+        });
+
+        $("#btnCancelar").off("click").on("click", function(e) {
+            e.preventDefault();
+            alert("Edição cancelada!");
+            modal.close(); // apenas fecha
+        });
     });
+
+    
 
     $('#lista-tarefas').on('click', '#btnExcluir', function() {
         const resposta = confirm("Tem certeza que deseja excluir?");
@@ -158,7 +170,7 @@ $(document).ready(function() {
 
         renderizarTarefas(filtradas);
     });
-    
+
     $('#btnLimparFiltro').click(() => {
         renderizarTarefas(tarefas);
     })
