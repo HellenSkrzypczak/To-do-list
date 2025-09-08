@@ -1,28 +1,64 @@
 $(document).ready(function() {
-    let tarefas = [];
+    let  tarefas = [];
+    const url = 'http://localhost:3000/tarefas';
 
-    $('#btnCadastrar').click(() => {
+    async function pegarTarefas() {
+        try {
+            const response = await fetch(url);
+            tarefas = await response.json();
+            renderizarTarefas(tarefas);
+        } catch(error){
+            console.log(error);
+        };
+    }
+    pegarTarefas();
+
+    async function criarTarefa(titulo, descricao, data, status) {   
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo, descricao, data, status })
+        });
+    
+        renderizarTarefas();
+    }
+
+    async function editarTarefa(id, dados) {
+        try{
+            await fetch(`${url}/${id}`, {
+                method: "PATCH",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+        } catch(erro){
+            console.log(error);
+        }
+    }
+
+    async function removerTarefa(id) {
+        try{
+            await fetch(`${url}/${id}`, { method: "DELETE" });
+        } catch(erro){
+            console.log(error);
+        }
+    }
+
+    $('#btnCadastrar').click(async () => {
         const inputTitulo = $('#inputTitulo').val();
         const inputDescricao = $('#inputDescricao').val();
         const inputData = $('#inputData').val();
-        
+        const status = "pendente";
+
         if(!inputTitulo || !inputDescricao || !inputData)
         {
             alert("Preencha todos os campos!")
             return;
         }
 
-        data = validacaoData(inputData);
-
-        tarefas.push({
-            titulo: inputTitulo, 
-            descricao: inputDescricao,
-            data: data, 
-            status: "pendente"  
-        });
-
-        renderizarTarefas(tarefas);        
+        const data = validacaoData(inputData);
+        criarTarefa(inputTitulo, inputDescricao, data, status);        
     });
+
 
     function validacaoData(data) {
         const anoAtual = moment().startOf("year");
@@ -44,7 +80,7 @@ $(document).ready(function() {
 
         lista.forEach((tarefa) => {
             const li = $(`
-                <li class="tarefa">
+                <li class="tarefa" data-id="${tarefa.id}">
                     <div class="div-header">
                         <div class="div-titulo"><h3 class="titulo"><strong>${tarefa.titulo}</strong></h3></div>
             
@@ -74,7 +110,7 @@ $(document).ready(function() {
 
             $('#lista-tarefas').append(li);
         });
-        
+        console.log(lista);
     }
 
     function filtrarPorData(filtradas, dataI, dataF){
@@ -97,9 +133,6 @@ $(document).ready(function() {
         $('#inputTitulo').val("");
         $('#inputDescricao').val("");
         $('#inputData').val("");
-        $('#inpDataInicio').val("");
-        $('#inpDataFim').val("");
-        $('#status').val("");
     }
 
     $('#lista-tarefas').on('click', '#btnEditar', function() {
@@ -117,34 +150,30 @@ $(document).ready(function() {
 
         // Remove eventos anteriores para evitar duplicação
         $("#btnConfirmar").off("click").on("click", function(e) {
-            e.preventDefault(); // previne comportamento padrão do form
+            e.preventDefault(); 
 
-            // Atualiza os dados da tarefa
-            tarefa.titulo = $("#modalTitulo").val();
-            tarefa.descricao = $("#modalDescricao").val();
-            tarefa.data = $("#modalData").val();
-            tarefa.status = $("#modalStatus").val();
+            editarTarefa(tarefa.id, {
+                titulo: $("#modalTitulo").val(),
+                descricao: $("#modalDescricao").val(),
+                data: $("#modalData").val(),
+                status: $("#modalStatus").val()
+            });
 
-            modal.close();       // fecha o modal
-            renderizarTarefas(tarefas); // atualiza a lista
-            alert("Tarefa atualizada!");
+            modal.close(); 
         });
 
         $("#btnCancelar").off("click").on("click", function(e) {
             e.preventDefault();
-            alert("Edição cancelada!");
-            modal.close(); // apenas fecha
+            modal.close();
         });
     });
-
-    
 
     $('#lista-tarefas').on('click', '#btnExcluir', function() {
         const resposta = confirm("Tem certeza que deseja excluir?");
         if (!resposta) { return; } 
 
-        tarefas.splice($(this).closest('.tarefa').index());
-        renderizarTarefas();
+        const id = $(this).closest('.tarefa').data('id');
+        removerTarefa(id);
     });
 
     $('#lista-tarefas').on('change', '.input-status', function() {  

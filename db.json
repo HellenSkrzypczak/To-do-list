@@ -1,0 +1,39 @@
+{
+  "tarefas": [
+    {
+      "id": 2,
+      "titulo": "Reunião com equipe de marketing",
+      "descricao": "Discutir estratégias para campanha de outubro",
+      "data": "2025-09-12",
+      "status": "andamento"
+    },
+    {
+      "id": 3,
+      "titulo": "Atualizar site da empresa",
+      "descricao": "Adicionar nova seção de produtos e atualizar banners",
+      "data": "2025-09-15",
+      "status": "concluida"
+    },
+    {
+      "id": 4,
+      "titulo": "Enviar relatórios financeiros",
+      "descricao": "Enviar os relatórios do mês de agosto para a diretoria",
+      "data": "2025-09-08",
+      "status": "pendente"
+    },
+    {
+      "id": 5,
+      "titulo": "Treinamento de segurança",
+      "descricao": "Participar do treinamento sobre segurança do trabalho",
+      "data": "2025-09-20",
+      "status": "andamento"
+    },
+    {
+      "titulo": "Ir ao mercado",
+      "descricao": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc augue nisl, euismod eget lacinia sit amet, vulputate id nulla. Donec pulvinar vehicula fringilla",
+      "data": "2025-09-10T03:00:00.000Z",
+      "status": "pendente",
+      "id": 6
+    }
+  ]
+}
