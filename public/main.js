@@ -1,27 +1,28 @@
-import { pegarTarefas, tarefas, editarTarefa, removerTarefa } from './tarefas.js';
-import { inicializarCadastro, validacaoData, filtrarPorData, fitrarPorStatus } from './cadastro.js';
-//import moment from 'moment';
+import { pegarTarefas, tarefas, editarTarefa, removerTarefa, filtroPorStatus, mudarStatusTarefa } from './tarefas.js';
+import { inicializarCadastro, validacaoData, filtrarPorData } from './cadastro.js';
+
 const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
 
-inicializarCadastro();
-await pegarTarefas();
+async function main() {
+    inicializarCadastro(listaTarefasEl);
+    await pegarTarefas();
+    renderizarTarefas(tarefas, listaTarefasEl);
+    setarEventoAcaoEditar(tarefas, listaTarefasEl);
+    excluirTarefa(listaTarefasEl, tarefas);
+    statusAtual(listaTarefasEl, tarefas);
+    filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas);
+}
 
-renderizarTarefas(tarefas, listaTarefasEl);
-setarEventoAcaoEditar(listaTarefasEl, tarefas);
-excluirTarefa(listaTarefasEl, tarefas);
-statusAtual(listaTarefasEl, tarefas);
-filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas);
-
-function setarEventoAcaoEditar(rootEl, tarefas) {
-    rootEl.on('click', '#btnEditar', function() {
+function setarEventoAcaoEditar(tarefas, listaTarefasEl) {
+    listaTarefasEl.on('click', '#btnEditar', function() {
         const index = $(this).closest('.tarefa').index();
         const tarefa = tarefas[index];
-        abrirModalEditar(tarefa, tarefas);
+        abrirModalEditar(tarefa, tarefas, listaTarefasEl);
     });
 }
 
-function abrirModalEditar(tarefa, tarefas) {
+function abrirModalEditar(tarefa, listaTarefasEl) {
     const modal = document.getElementById("modalEditar");
 
     $("#modalTitulo").val(tarefa.titulo);
@@ -30,22 +31,26 @@ function abrirModalEditar(tarefa, tarefas) {
     $("#modalStatus").val(tarefa.status);
 
     modal.showModal();
-    botoesModalEditar(modal, tarefa, tarefas); 
+    botoesModalEditar(modal, tarefa, listaTarefasEl); 
 }
 
-function botoesModalEditar(modal, tarefa, tarefas) {
+function botoesModalEditar(modal, tarefa, listaTarefasEl) {
     $("#btnConfirmar").off("click").on("click", async function(e) {
         e.preventDefault(); 
 
-        await editarTarefa(tarefa.id, {
+        const novaTarefa = await editarTarefa(tarefa.id, {
             titulo: $("#modalTitulo").val(),
             descricao: $("#modalDescricao").val(),
             data: $("#modalData").val(),
             status: $("#modalStatus").val()
         });
 
-        renderizarTarefas(tarefas, listaTarefasEl);
-        modal.close(); 
+        if(novaTarefa){
+            const tarefasAtualizadas = await pegarTarefas();
+            renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
+            modal.close();
+        }
+        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }    
     });
 
     $("#btnCancelar").off("click").on("click", function(e) {
@@ -54,41 +59,61 @@ function botoesModalEditar(modal, tarefa, tarefas) {
     });
 }
 
-function excluirTarefa(rootEl, tarefas) {
-    rootEl.on('click', '#btnExcluir', async function() {
+function excluirTarefa(listaTarefasEl) {
+    listaTarefasEl.on('click', '#btnExcluir', async function() {
         const resposta = confirm("Tem certeza que deseja excluir?");
         if (!resposta) { return; } 
 
         const id = $(this).closest('.tarefa').data('id');
         await removerTarefa(id);
-        renderizarTarefas(tarefas, listaTarefasEl);
+        if(removerTarefa)
+        {
+            const tarefasAtualizadas = await pegarTarefas();
+            renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
+        }
+        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
     });    
 }
 
-function statusAtual(rootEl, tarefas) {
-    rootEl.on('change', '.input-status', function() {  
-        const index = $(this).closest('.tarefa').index();
-        tarefas[index].status = $(this).val();
+function statusAtual(listaTarefasEl) {
+    listaTarefasEl.on('change', '.input-status', async function() {  
+        const id = $(this).closest('.tarefa').data('id');
+        const status = $(this).val();
+
+        const novoStatus = await mudarStatusTarefa(id, status);
+        if(novoStatus){
+            const tarefasAtualizadas = await pegarTarefas();
+            renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
+        }
+        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
     });
 }
 
-
 function filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas) {
-    btnFiltrarEl.click(() => {
+    btnFiltrarEl.click(async () => {
         const status = $('#status').val();
         const dataInicio = validacaoData($('#inpDataInicio').val());
         const dataFim = validacaoData($('#inpDataFim').val());
         
         if (!status && !dataInicio && !dataFim) {
-            alert("Informe status ou data para filtrar!")
-            renderizarTarefas(tarefas, listaTarefasEl);
+             return toastr.error("Informe uma data ou status para filtrar!", "ERRO")
         }
         
-        let filtradas = tarefas;
-        filtradas = fitrarPorStatus(filtradas, status);
-        filtradas = filtrarPorData(filtradas, dataInicio, dataFim);
-
-        renderizarTarefas(filtradas, listaTarefasEl);
+        const tarefasFiltro = await filtroPorStatus(status)
+        
+        if(tarefasFiltro){
+            renderizarTarefas(tarefasFiltro, listaTarefasEl);
+        }    
+        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
+        
+        if(dataInicio && dataFim)
+        {
+            let filtradas = tarefas;
+            filtradas = filtrarPorData(filtradas, dataInicio, dataFim);
+            renderizarTarefas(filtradas, listaTarefasEl);
+        }
+        else{ return toastr.error("Erro ao carregar as tarefas!", "ERRO")}
+        
     });   
 }
 
@@ -96,7 +121,7 @@ $('#btnLimparFiltro').click(() => {
     renderizarTarefas(tarefas, listaTarefasEl);
 })
 
-function renderizarTarefas(lista, listaTarefasEl) {
+export function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
 
     lista.forEach((tarefa) => {
@@ -132,3 +157,5 @@ function renderizarTarefas(lista, listaTarefasEl) {
         listaTarefasEl.append(li);
     });
 }
+
+main()
