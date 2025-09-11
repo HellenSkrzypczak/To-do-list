@@ -76,7 +76,3 @@ export async function mudarStatusTarefa(id, status) {
         return false
     }
 }
-
-
-
-

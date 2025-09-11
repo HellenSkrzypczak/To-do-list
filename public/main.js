@@ -4,6 +4,7 @@ import { inicializarCadastro, validacaoData, filtrarPorData } from './cadastro.j
 const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
 
+
 async function main() {
     inicializarCadastro(listaTarefasEl);
     await pegarTarefas();
@@ -12,13 +13,14 @@ async function main() {
     excluirTarefa(listaTarefasEl, tarefas);
     statusAtual(listaTarefasEl, tarefas);
     filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas);
+    limparFiltro(listaTarefasEl);
 }
 
 function setarEventoAcaoEditar(tarefas, listaTarefasEl) {
     listaTarefasEl.on('click', '#btnEditar', function() {
         const index = $(this).closest('.tarefa').index();
         const tarefa = tarefas[index];
-        abrirModalEditar(tarefa, tarefas, listaTarefasEl);
+        abrirModalEditar(tarefa, listaTarefasEl);
     });
 }
 
@@ -61,17 +63,28 @@ function botoesModalEditar(modal, tarefa, listaTarefasEl) {
 
 function excluirTarefa(listaTarefasEl) {
     listaTarefasEl.on('click', '#btnExcluir', async function() {
-        const resposta = confirm("Tem certeza que deseja excluir?");
-        if (!resposta) { return; } 
-
         const id = $(this).closest('.tarefa').data('id');
-        await removerTarefa(id);
-        if(removerTarefa)
-        {
-            const tarefasAtualizadas = await pegarTarefas();
-            renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
-        }
-        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
+        $.confirm({
+            title: 'Confirmação',
+            content: 'Deseja realmente excluir?',
+            buttons: {
+                Sim: async function () { 
+                    await removerTarefa(id);
+                    if(removerTarefa)
+                    {
+                        const tarefasAtualizadas = await pegarTarefas();
+                        renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
+                        return toastr.success("Tarefa excluida!");
+                    }
+                    else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
+                    
+                },  
+                Cancelar: function () {
+                   return toastr.success('Cancelado com sucesso!');
+                   
+                }
+            }
+        });
     });    
 }
 
@@ -112,15 +125,22 @@ function filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas) {
             filtradas = filtrarPorData(filtradas, dataInicio, dataFim);
             renderizarTarefas(filtradas, listaTarefasEl);
         }
-        else{ return toastr.error("Erro ao carregar as tarefas!", "ERRO")}
-        
+        else return;
     });   
 }
 
-$('#btnLimparFiltro').click(() => {
-    renderizarTarefas(tarefas, listaTarefasEl);
-})
-
+function limparFiltro(listaTarefasEl) {
+    $('#btnLimparFiltro').click(async () => {
+        const tarefas = await pegarTarefas();
+        renderizarTarefas(tarefas, listaTarefasEl);
+        limparCamposFiltro();
+    })    
+}
+function limparCamposFiltro() {
+    $('#status').val("");
+    $('#inpDataInicio').val("");
+    $('#inpDataFim').val("");
+}
 export function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
 

@@ -64,7 +64,7 @@ html, body{
 .input{
     border-color: rgba(96, 97, 97, 0.192);
     color: rgb(143, 145, 145);
-    border-radius: 5px;
+    border-radius: 0.5rem;
     width: 100%;
     min-width: 9rem;
     padding: 0.5rem;    
@@ -293,6 +293,16 @@ dialog::backdrop {
     .tarefa-descricao{
         text-align: justify;
     }
+    .grid-data-status{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        min-width: 100%;
+    }
+    .dataModal{
+        margin: 0;
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -307,5 +317,16 @@ dialog::backdrop {
     .titulo{
         padding-bottom: 0.5rem;
     }
+    .form-modal{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
     
+}
+
+.jconfirm .jconfirm-box {
+  max-width: 600px !important;
+  width: 90% !important;  /* ocupa 90% só se a tela for estreita */
+  margin: 0 auto !important;
 }
