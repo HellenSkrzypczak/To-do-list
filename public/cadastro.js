@@ -14,24 +14,20 @@ export function inicializarCadastro(listaTarefasEl) {
         const inputData = $('#inputData').val();
         const status = "pendente";
 
-        if(!inputTitulo || !inputDescricao || !inputData)
-        {
-            return toastr.error("Preencha todos os campos!", "ERRO")
-        }
+        const campos = validacaoCampos(inputTitulo, inputDescricao, inputData)
+        if (!campos) return toastr.error("Preencha todos os campos!", "ERRO")
 
         const data = validacaoData(inputData)
-        if (!data){
-            return toastr.error("Data invalida!", "ERRO");
-        }
-
+        if (!data) return toastr.error("Data inválida!", "ERRO")
+        
+        
         const tarefasAtualizadas = await criarTarefa(inputTitulo, inputDescricao, data, status);
-        if (tarefasAtualizadas) {
-            const tarefas = await pegarTarefas();
-            renderizarTarefas(tarefas, listaTarefasEl);
-            limparCampos()
-            return toastr.success("Cadastrado com sucesso!");    
-        }     
-        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") } 
+        if (!tarefasAtualizadas) return toastr.error("Erro ao carregar as tarefas!", "ERRO");
+
+        const tarefas = await pegarTarefas();
+        renderizarTarefas(tarefas, listaTarefasEl);
+        limparCampos();
+        toastr.success("Cadastrado com sucesso!");        
     });
 }
 
@@ -45,6 +41,10 @@ export function validacaoData(data) {
     } else {
         return null;
     } 
+}
+
+export function validacaoCampos(titulo, descricao, data){
+    return !!(titulo && descricao && data)
 }
 
 export function filtrarPorData(filtradas, dataI, dataF){

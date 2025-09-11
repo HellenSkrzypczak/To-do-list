@@ -1,5 +1,5 @@
 import { pegarTarefas, tarefas, editarTarefa, removerTarefa, filtroPorStatus, mudarStatusTarefa } from './tarefas.js';
-import { inicializarCadastro, validacaoData, filtrarPorData } from './cadastro.js';
+import { inicializarCadastro, validacaoData, filtrarPorData,  validacaoCampos} from './cadastro.js';
 
 const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
@@ -9,14 +9,14 @@ async function main() {
     inicializarCadastro(listaTarefasEl);
     await pegarTarefas();
     renderizarTarefas(tarefas, listaTarefasEl);
-    setarEventoAcaoEditar(tarefas, listaTarefasEl);
-    excluirTarefa(listaTarefasEl, tarefas);
-    statusAtual(listaTarefasEl, tarefas);
-    filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas);
+    setarEventoAcaoEditar(listaTarefasEl);
+    setarEventoAcaoExcluirTarefa(listaTarefasEl);
+    setarEventoAcaoAlterarStatusTarefa(listaTarefasEl);
+    setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl);
     limparFiltro(listaTarefasEl);
 }
 
-function setarEventoAcaoEditar(tarefas, listaTarefasEl) {
+function setarEventoAcaoEditar(listaTarefasEl) {
     listaTarefasEl.on('click', '#btnEditar', function() {
         const index = $(this).closest('.tarefa').index();
         const tarefa = tarefas[index];
@@ -40,19 +40,20 @@ function botoesModalEditar(modal, tarefa, listaTarefasEl) {
     $("#btnConfirmar").off("click").on("click", async function(e) {
         e.preventDefault(); 
 
-        const novaTarefa = await editarTarefa(tarefa.id, {
-            titulo: $("#modalTitulo").val(),
-            descricao: $("#modalDescricao").val(),
-            data: $("#modalData").val(),
-            status: $("#modalStatus").val()
-        });
+        const titulo = $("#modalTitulo").val();
+        const descricao = $("#modalDescricao").val();
+        const data = $("#modalData").val();
+        const status = $("#modalStatus").val();
+        
+        if (!validacaoCampos(titulo, descricao, data)) return toastr.error("Preencha todos os campos!", "ERRO")
+        if (!validacaoData(data)) return toastr.error("Data inválida!", "ERRO")
 
-        if(novaTarefa){
-            const tarefasAtualizadas = await pegarTarefas();
-            renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
-            modal.close();
-        }
-        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }    
+        const novaTarefa = await editarTarefa(tarefa.id, {titulo, descricao, data, status});
+        if(!novaTarefa) return toastr.error("Erro ao carregar as tarefas!", "ERRO")
+
+        const tarefasAtualizadas = await pegarTarefas();
+        renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
+        modal.close();
     });
 
     $("#btnCancelar").off("click").on("click", function(e) {
@@ -61,7 +62,7 @@ function botoesModalEditar(modal, tarefa, listaTarefasEl) {
     });
 }
 
-function excluirTarefa(listaTarefasEl) {
+function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
     listaTarefasEl.on('click', '#btnExcluir', async function() {
         const id = $(this).closest('.tarefa').data('id');
         $.confirm({
@@ -88,7 +89,7 @@ function excluirTarefa(listaTarefasEl) {
     });    
 }
 
-function statusAtual(listaTarefasEl) {
+function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
     listaTarefasEl.on('change', '.input-status', async function() {  
         const id = $(this).closest('.tarefa').data('id');
         const status = $(this).val();
@@ -102,7 +103,7 @@ function statusAtual(listaTarefasEl) {
     });
 }
 
-function filtrarTarefa(btnFiltrarEl, listaTarefasEl, tarefas) {
+function setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl) {
     btnFiltrarEl.click(async () => {
         const status = $('#status').val();
         const dataInicio = validacaoData($('#inpDataInicio').val());
