@@ -1,15 +1,15 @@
 const URL = 'http://localhost:3000/tarefas';
 let  tarefas = [];
-
 export { tarefas };
 
 export async function pegarTarefas() {
-    try {
+    try{
         const response = await fetch(URL);
         tarefas = await response.json();
         return tarefas;
     } catch(error){
-        console.log(error)
+        console.log(error);
+        return null
     };
 }
 
@@ -21,21 +21,21 @@ export async function criarTarefa(titulo, descricao, data, status) {
             body: JSON.stringify({ titulo, descricao, data, status })
         });
         return response.ok
-    }catch (error) {
-        console.log(error)
+    } catch(error) {
+        console.log(error);
         return false
     }
 }
 
-export async function editarTarefa(id, dados) {
+export async function editarTarefa(id, titulo, descricao, data, status) {
     try{
         const response = await fetch(`${URL}/${id}`, {
             method: "PATCH",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
+            body: JSON.stringify({titulo, descricao, data, status})
         });
         return response.ok
-    }catch(error){
+    } catch(error){
         console.log(error);
         return false
     }
@@ -45,9 +45,8 @@ export async function removerTarefa(id) {
     try{
         const response = await fetch(`${URL}/${id}`, { method: "DELETE" });
         return response.ok
-    }catch(error){
+    } catch(error){
         console.log(error);
-        
         return false
     }
 }
@@ -64,14 +63,14 @@ export async function filtroPorStatus(status) {
 }
 
 export async function mudarStatusTarefa(id, status) {
-    try{
+    try {
         const response = await fetch(`${URL}/${id}`, {
             method: "PATCH",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({status})
         });
-        return response.ok
-    }catch(error){
+    return response.ok
+    } catch(error){
         console.log(error);
         return false
     }

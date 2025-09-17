@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-
 /*ESTRUTURA GERAL*/
 *{
     margin: 0;
@@ -322,11 +321,10 @@ dialog::backdrop {
         flex-direction: column;
         flex-wrap: wrap;
     }
-    
 }
 
 .jconfirm .jconfirm-box {
   max-width: 600px !important;
-  width: 90% !important;  /* ocupa 90% só se a tela for estreita */
+  width: 90% !important; 
   margin: 0 auto !important;
 }

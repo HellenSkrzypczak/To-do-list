@@ -1,5 +1,5 @@
-import { renderizarTarefas } from './main.js';
-import { criarTarefa, pegarTarefas } from './tarefas.js';
+import { pegarERenderizarTarefas } from './main.js';
+import { criarTarefa } from './tarefas.js';
 
 export function limparCampos(){
     $('#inputTitulo').val("");
@@ -22,12 +22,11 @@ export function inicializarCadastro(listaTarefasEl) {
         
         
         const tarefasAtualizadas = await criarTarefa(inputTitulo, inputDescricao, data, status);
-        if (!tarefasAtualizadas) return toastr.error("Erro ao carregar as tarefas!", "ERRO");
+        if (!tarefasAtualizadas) return toastr.error("Erro ao criar tarefa!", "ERRO");
 
-        const tarefas = await pegarTarefas();
-        renderizarTarefas(tarefas, listaTarefasEl);
-        limparCampos();
-        toastr.success("Cadastrado com sucesso!");        
+        toastr.success("Cadastrado com sucesso!");
+        pegarERenderizarTarefas(listaTarefasEl)
+        limparCampos();        
     });
 }
 
@@ -47,10 +46,8 @@ export function validacaoCampos(titulo, descricao, data){
     return !!(titulo && descricao && data)
 }
 
-export function filtrarPorData(filtradas, dataI, dataF){
-    if (!dataI || !dataF) return filtradas;
-
-    return filtradas.filter(tarefa => {
+export function filtrarPorData(tarefas, dataI, dataF){
+    return tarefas.filter(tarefa => {
         const dataTarefa = moment(tarefa.data, "YYYY-MM-DD");
         return dataTarefa.isBetween(dataI, dataF, undefined, '[]');
     });

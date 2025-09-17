@@ -23,8 +23,7 @@ Instale o json-server globalmente com:
 1. Clone este repositório:
 
 ```bash
-    git clone https://github.com/HellenSkrzypczak/To-do-list.git
-    cd To-do-list
+    svn checkout http://taurus:8080/svn/treinamento/Hellen
 ```
 
 2. Inicie o servidor fake com o arquivo db.json:

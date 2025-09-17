@@ -4,11 +4,9 @@ import { inicializarCadastro, validacaoData, filtrarPorData,  validacaoCampos} f
 const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
 
-
-async function main() {
+function main() {
     inicializarCadastro(listaTarefasEl);
-    await pegarTarefas();
-    renderizarTarefas(tarefas, listaTarefasEl);
+    pegarERenderizarTarefas(listaTarefasEl);
     setarEventoAcaoEditar(listaTarefasEl);
     setarEventoAcaoExcluirTarefa(listaTarefasEl);
     setarEventoAcaoAlterarStatusTarefa(listaTarefasEl);
@@ -45,14 +43,13 @@ function botoesModalEditar(modal, tarefa, listaTarefasEl) {
         const data = $("#modalData").val();
         const status = $("#modalStatus").val();
         
-        if (!validacaoCampos(titulo, descricao, data)) return toastr.error("Preencha todos os campos!", "ERRO")
-        if (!validacaoData(data)) return toastr.error("Data inválida!", "ERRO")
+        if (!validacaoCampos(titulo, descricao, data)) return toastr.error("Preencha todos os campos!", "ERRO");
+        if (!validacaoData(data)) return toastr.error("Data inválida!", "ERRO");
+        
+        const novaTarefa = await editarTarefa(tarefa.id, titulo, descricao, data, status);
+        if(!novaTarefa) return toastr.error("Erro ao editar tarefa!", "ERRO")
 
-        const novaTarefa = await editarTarefa(tarefa.id, {titulo, descricao, data, status});
-        if(!novaTarefa) return toastr.error("Erro ao carregar as tarefas!", "ERRO")
-
-        const tarefasAtualizadas = await pegarTarefas();
-        renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
+        pegarERenderizarTarefas(listaTarefasEl);
         modal.close();
     });
 
@@ -70,19 +67,14 @@ function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
             content: 'Deseja realmente excluir?',
             buttons: {
                 Sim: async function () { 
-                    await removerTarefa(id);
-                    if(removerTarefa)
-                    {
-                        const tarefasAtualizadas = await pegarTarefas();
-                        renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
-                        return toastr.success("Tarefa excluida!");
-                    }
-                    else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
+                    const removerTarefasoOK = await removerTarefa(id);
+                    if(!removerTarefasoOK) return toastr.error("Erro ao excluir a tarefa!", "ERRO");
                     
+                    toastr.success("Tarefa excluida!");     
+                    pegarERenderizarTarefas(listaTarefasEl);         
                 },  
                 Cancelar: function () {
                    return toastr.success('Cancelado com sucesso!');
-                   
                 }
             }
         });
@@ -93,13 +85,12 @@ function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
     listaTarefasEl.on('change', '.input-status', async function() {  
         const id = $(this).closest('.tarefa').data('id');
         const status = $(this).val();
-
+        
         const novoStatus = await mudarStatusTarefa(id, status);
-        if(novoStatus){
-            const tarefasAtualizadas = await pegarTarefas();
-            renderizarTarefas(tarefasAtualizadas, listaTarefasEl);
-        }
-        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
+        if(!novoStatus) return toastr.error("Não foi possível alterar o Status!", "ERRO");
+
+        toastr.success("Status alterado!");
+        pegarERenderizarTarefas(listaTarefasEl);
     });
 }
 
@@ -109,31 +100,21 @@ function setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl) {
         const dataInicio = validacaoData($('#inpDataInicio').val());
         const dataFim = validacaoData($('#inpDataFim').val());
         
-        if (!status && !dataInicio && !dataFim) {
-             return toastr.error("Informe uma data ou status para filtrar!", "ERRO")
-        }
+        if(!status && !dataInicio && !dataFim) return toastr.error("Informe uma data ou status para filtrar!", "ERRO");
         
-        const tarefasFiltro = await filtroPorStatus(status)
+        const tarefasFiltro = await filtroPorStatus(status);
+        if(!tarefasFiltro) return toastr.error("Erro ao carregar as tarefas!", "ERRO");
+        renderizarTarefas(tarefasFiltro, listaTarefasEl);
         
-        if(tarefasFiltro){
-            renderizarTarefas(tarefasFiltro, listaTarefasEl);
-        }    
-        else { return toastr.error("Erro ao carregar as tarefas!", "ERRO") }
-        
-        if(dataInicio && dataFim)
-        {
-            let filtradas = tarefas;
-            filtradas = filtrarPorData(filtradas, dataInicio, dataFim);
-            renderizarTarefas(filtradas, listaTarefasEl);
-        }
-        else return;
+        if (!(dataInicio && dataFim)) return toastr.error("Informe uma data de inicio e fim!", "ERRO");
+        const filtradas = filtrarPorData(tarefas, dataInicio, dataFim);
+        renderizarTarefas(filtradas, listaTarefasEl);
     });   
 }
 
 function limparFiltro(listaTarefasEl) {
     $('#btnLimparFiltro').click(async () => {
-        const tarefas = await pegarTarefas();
-        renderizarTarefas(tarefas, listaTarefasEl);
+        pegarERenderizarTarefas(listaTarefasEl);
         limparCamposFiltro();
     })    
 }
@@ -142,7 +123,14 @@ function limparCamposFiltro() {
     $('#inpDataInicio').val("");
     $('#inpDataFim').val("");
 }
-export function renderizarTarefas(lista, listaTarefasEl) {
+
+export async function pegarERenderizarTarefas(listaTarefasEl) {
+    const tarefas = await pegarTarefas();
+    if(tarefas) renderizarTarefas(tarefas, listaTarefasEl)
+    else toastr.error("Não foi possivel carregar a lista de tarefas!", "ERRO");
+}
+
+function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
 
     lista.forEach((tarefa) => {
@@ -157,7 +145,7 @@ export function renderizarTarefas(lista, listaTarefasEl) {
                         </div>
                         <div>
                             <select class="input-status">
-                                <option value="pendente"  ${tarefa.status === "pendente"  ? "selected" : ""}>Pendente</option>
+                                <option value="pendente"  ${tarefa.status === "pendente"  ? "selected" : "" }>Pendente</option>
                                 <option value="andamento" ${tarefa.status === "andamento" ? "selected" : ""}>Em andamento</option>
                                 <option value="concluida" ${tarefa.status === "concluida" ? "selected" : ""}>Concluída</option>
                             </select>
