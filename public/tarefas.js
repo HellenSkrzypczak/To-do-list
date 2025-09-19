@@ -1,11 +1,12 @@
+import { tarefasSubject } from "./tarefasSubject.js";
+
 const URL = 'http://localhost:3000/tarefas';
-let  tarefas = [];
-export { tarefas };
 
 export async function pegarTarefas() {
     try{
         const response = await fetch(URL);
-        tarefas = await response.json();
+        const tarefas = await response.json();
+        tarefasSubject.next(tarefas);
         return tarefas;
     } catch(error){
         console.log(error);
@@ -20,7 +21,13 @@ export async function criarTarefa(titulo, descricao, data, status) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ titulo, descricao, data, status })
         });
-        return response.ok
+        if (response.ok){
+            const responseTarefas = await fetch(URL);
+            const tarefasAtualizadas = await responseTarefas.json();
+            tarefasSubject.next(tarefasAtualizadas);
+            return true;
+        }
+        return false;
     } catch(error) {
         console.log(error);
         return false
@@ -34,7 +41,13 @@ export async function editarTarefa(id, titulo, descricao, data, status) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({titulo, descricao, data, status})
         });
-        return response.ok
+        if (response.ok){
+            const responseTarefas = await fetch(URL);
+            const tarefasAtualizadas = await responseTarefas.json();
+            tarefasSubject.next(tarefasAtualizadas);
+            return true;
+        }
+        return false;
     } catch(error){
         console.log(error);
         return false
@@ -44,7 +57,13 @@ export async function editarTarefa(id, titulo, descricao, data, status) {
 export async function removerTarefa(id) {
     try{
         const response = await fetch(`${URL}/${id}`, { method: "DELETE" });
-        return response.ok
+        if (response.ok){
+            const responseTarefas = await fetch(URL);
+            const tarefasAtualizadas = await responseTarefas.json();
+            tarefasSubject.next(tarefasAtualizadas);
+            return true;
+        }
+        return false;
     } catch(error){
         console.log(error);
         return false
@@ -69,7 +88,13 @@ export async function mudarStatusTarefa(id, status) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({status})
         });
-    return response.ok
+        if (response.ok){
+            const responseTarefas = await fetch(URL);
+            const tarefasAtualizadas = await responseTarefas.json();
+            tarefasSubject.next(tarefasAtualizadas);
+            return true;
+        }
+        return false;
     } catch(error){
         console.log(error);
         return false

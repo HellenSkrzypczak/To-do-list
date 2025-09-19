@@ -1,4 +1,3 @@
-import { pegarERenderizarTarefas } from './main.js';
 import { criarTarefa } from './tarefas.js';
 
 export function limparCampos(){
@@ -7,26 +6,23 @@ export function limparCampos(){
     $('#inputData').val("");
 }
 
-export function inicializarCadastro(listaTarefasEl) {
+export function inicializarCadastro() {
     $('#btnCadastrar').click(async () => {
         const inputTitulo = $('#inputTitulo').val();
         const inputDescricao = $('#inputDescricao').val();
         const inputData = $('#inputData').val();
         const status = "pendente";
 
-        const campos = validacaoCampos(inputTitulo, inputDescricao, inputData)
-        if (!campos) return toastr.error("Preencha todos os campos!", "ERRO")
+        if (!validacaoCampos(inputTitulo, inputDescricao, inputData)) return toastr.error("Preencha todos os campos!", "ERRO")
 
         const data = validacaoData(inputData)
         if (!data) return toastr.error("Data inválida!", "ERRO")
         
         
         const tarefasAtualizadas = await criarTarefa(inputTitulo, inputDescricao, data, status);
-        if (!tarefasAtualizadas) return toastr.error("Erro ao criar tarefa!", "ERRO");
-
-        toastr.success("Cadastrado com sucesso!");
-        pegarERenderizarTarefas(listaTarefasEl)
-        limparCampos();        
+        if (!tarefasAtualizadas) return toastr.error("Erro ao criar a tarefa. Tente novamente.", "ERRO");
+        limparCampos();   
+        toastr.success("Tarefa criada com sucesso!");     
     });
 }
 

@@ -1,23 +1,29 @@
-import { pegarTarefas, tarefas, editarTarefa, removerTarefa, filtroPorStatus, mudarStatusTarefa } from './tarefas.js';
+import { editarTarefa, removerTarefa, filtroPorStatus, mudarStatusTarefa, pegarTarefas } from './tarefas.js';
 import { inicializarCadastro, validacaoData, filtrarPorData,  validacaoCampos} from './cadastro.js';
+import { tarefasSubject } from './tarefasSubject.js';
 
 const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
 
-function main() {
+async function main() {
+    await pegarTarefas();
     inicializarCadastro(listaTarefasEl);
-    pegarERenderizarTarefas(listaTarefasEl);
     setarEventoAcaoEditar(listaTarefasEl);
     setarEventoAcaoExcluirTarefa(listaTarefasEl);
     setarEventoAcaoAlterarStatusTarefa(listaTarefasEl);
     setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl);
-    limparFiltro(listaTarefasEl);
+    limparFiltro();
 }
+
+tarefasSubject.subscribe((tarefas) => {
+    renderizarTarefas(tarefas, listaTarefasEl);
+});
 
 function setarEventoAcaoEditar(listaTarefasEl) {
     listaTarefasEl.on('click', '#btnEditar', function() {
         const index = $(this).closest('.tarefa').index();
-        const tarefa = tarefas[index];
+        const listaAtual = tarefasSubject.getValue();
+        const tarefa = listaAtual[index];
         abrirModalEditar(tarefa, listaTarefasEl);
     });
 }
@@ -34,7 +40,7 @@ function abrirModalEditar(tarefa, listaTarefasEl) {
     botoesModalEditar(modal, tarefa, listaTarefasEl); 
 }
 
-function botoesModalEditar(modal, tarefa, listaTarefasEl) {
+function botoesModalEditar(modal, tarefa) {
     $("#btnConfirmar").off("click").on("click", async function(e) {
         e.preventDefault(); 
 
@@ -49,7 +55,6 @@ function botoesModalEditar(modal, tarefa, listaTarefasEl) {
         const novaTarefa = await editarTarefa(tarefa.id, titulo, descricao, data, status);
         if(!novaTarefa) return toastr.error("Erro ao editar tarefa!", "ERRO")
 
-        pegarERenderizarTarefas(listaTarefasEl);
         modal.close();
     });
 
@@ -69,9 +74,7 @@ function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
                 Sim: async function () { 
                     const removerTarefasoOK = await removerTarefa(id);
                     if(!removerTarefasoOK) return toastr.error("Erro ao excluir a tarefa!", "ERRO");
-                    
-                    toastr.success("Tarefa excluida!");     
-                    pegarERenderizarTarefas(listaTarefasEl);         
+                    toastr.success("Tarefa excluida!");             
                 },  
                 Cancelar: function () {
                    return toastr.success('Cancelado com sucesso!');
@@ -88,9 +91,7 @@ function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
         
         const novoStatus = await mudarStatusTarefa(id, status);
         if(!novoStatus) return toastr.error("Não foi possível alterar o Status!", "ERRO");
-
         toastr.success("Status alterado!");
-        pegarERenderizarTarefas(listaTarefasEl);
     });
 }
 
@@ -100,36 +101,30 @@ function setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl) {
         const dataInicio = validacaoData($('#inpDataInicio').val());
         const dataFim = validacaoData($('#inpDataFim').val());
         
-        if(!status && !dataInicio && !dataFim) return toastr.error("Informe uma data ou status para filtrar!", "ERRO");
-        
-        const tarefasFiltro = await filtroPorStatus(status);
-        if(!tarefasFiltro) return toastr.error("Erro ao carregar as tarefas!", "ERRO");
-        renderizarTarefas(tarefasFiltro, listaTarefasEl);
-        
-        if (!(dataInicio && dataFim)) return toastr.error("Informe uma data de inicio e fim!", "ERRO");
-        const filtradas = filtrarPorData(tarefas, dataInicio, dataFim);
-        renderizarTarefas(filtradas, listaTarefasEl);
+        if(!status && !dataInicio && !dataFim) return toastr.error("Informe um status ou um período de datas para filtrar!", "ERRO");
+
+        if(status){
+            const tarefasFiltradas = await filtroPorStatus(status);
+            if(!tarefasFiltradas)return toastr.error("Erro ao carregar as tarefas!", "ERRO");
+            renderizarTarefas(tarefasFiltradas, listaTarefasEl);
+        }else if (dataInicio && dataFim){
+            const tarefas = await pegarTarefas();
+            const tarefasFiltradas = filtrarPorData(tarefas, dataInicio, dataFim);
+            renderizarTarefas(tarefasFiltradas, listaTarefasEl);
+        }else {
+            return toastr.error("Informe uma data de inicio e fim!", "ERRO");
+        }
     });   
 }
 
-function limparFiltro(listaTarefasEl) {
+function limparFiltro() {
     $('#btnLimparFiltro').click(async () => {
-        pegarERenderizarTarefas(listaTarefasEl);
-        limparCamposFiltro();
+        await pegarTarefas();
+        $('#status').val("");
+        $('#inpDataInicio').val("");
+        $('#inpDataFim').val("");
     })    
 }
-function limparCamposFiltro() {
-    $('#status').val("");
-    $('#inpDataInicio').val("");
-    $('#inpDataFim').val("");
-}
-
-export async function pegarERenderizarTarefas(listaTarefasEl) {
-    const tarefas = await pegarTarefas();
-    if(tarefas) renderizarTarefas(tarefas, listaTarefasEl)
-    else toastr.error("Não foi possivel carregar a lista de tarefas!", "ERRO");
-}
-
 function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
 
