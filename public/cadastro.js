@@ -1,4 +1,5 @@
 import { criarTarefa } from './tarefas.js';
+import {recarregarTarefas} from './main.js';
 
 export function limparCampos(){
     $('#inputTitulo').val("");
@@ -21,6 +22,8 @@ export function inicializarCadastro() {
         
         const tarefasAtualizadas = await criarTarefa(inputTitulo, inputDescricao, data, status);
         if (!tarefasAtualizadas) return toastr.error("Erro ao criar a tarefa. Tente novamente.", "ERRO");
+        recarregarTarefas()
+
         limparCampos();   
         toastr.success("Tarefa criada com sucesso!");     
     });

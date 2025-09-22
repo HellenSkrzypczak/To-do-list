@@ -6,7 +6,7 @@ const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
 
 async function main() {
-    await pegarTarefas();
+    recarregarTarefas()
     inicializarCadastro(listaTarefasEl);
     setarEventoAcaoEditar(listaTarefasEl);
     setarEventoAcaoExcluirTarefa(listaTarefasEl);
@@ -49,11 +49,15 @@ function botoesModalEditar(modal, tarefa) {
         const data = $("#modalData").val();
         const status = $("#modalStatus").val();
         
-        if (!validacaoCampos(titulo, descricao, data)) return toastr.error("Preencha todos os campos!", "ERRO");
+        if (!validacaoCampos(titulo, descricao, data)){
+            toastr.error("Preencha todos os campos!", "ERRO");
+            return
+        } 
         if (!validacaoData(data)) return toastr.error("Data inválida!", "ERRO");
         
         const novaTarefa = await editarTarefa(tarefa.id, titulo, descricao, data, status);
-        if(!novaTarefa) return toastr.error("Erro ao editar tarefa!", "ERRO")
+        if(!novaTarefa) return toastr.error("Erro ao editar tarefa!", "ERRO");
+        recarregarTarefas();
 
         modal.close();
     });
@@ -72,8 +76,9 @@ function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
             content: 'Deseja realmente excluir?',
             buttons: {
                 Sim: async function () { 
-                    const removerTarefasoOK = await removerTarefa(id);
-                    if(!removerTarefasoOK) return toastr.error("Erro ao excluir a tarefa!", "ERRO");
+                    const removerTarefasOK = await removerTarefa(id);
+                    if(!removerTarefasOK) return toastr.error("Erro ao excluir a tarefa!", "ERRO");
+                    recarregarTarefas();
                     toastr.success("Tarefa excluida!");             
                 },  
                 Cancelar: function () {
@@ -91,35 +96,46 @@ function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
         
         const novoStatus = await mudarStatusTarefa(id, status);
         if(!novoStatus) return toastr.error("Não foi possível alterar o Status!", "ERRO");
+        recarregarTarefas();
         toastr.success("Status alterado!");
     });
 }
 
-function setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl) {
+function setarEventoAcaoFiltrarTarefa(btnFiltrarEl) {
     btnFiltrarEl.click(async () => {
         const status = $('#status').val();
-        const dataInicio = validacaoData($('#inpDataInicio').val());
-        const dataFim = validacaoData($('#inpDataFim').val());
+        const dataInicio = $('#inpDataInicio').val();
+        const dataFim = $('#inpDataFim').val();
         
         if(!status && !dataInicio && !dataFim) return toastr.error("Informe um status ou um período de datas para filtrar!", "ERRO");
 
+        let tarefas = []
+
         if(status){
             const tarefasFiltradas = await filtroPorStatus(status);
-            if(!tarefasFiltradas)return toastr.error("Erro ao carregar as tarefas!", "ERRO");
-            renderizarTarefas(tarefasFiltradas, listaTarefasEl);
-        }else if (dataInicio && dataFim){
-            const tarefas = await pegarTarefas();
-            const tarefasFiltradas = filtrarPorData(tarefas, dataInicio, dataFim);
-            renderizarTarefas(tarefasFiltradas, listaTarefasEl);
-        }else {
-            return toastr.error("Informe uma data de inicio e fim!", "ERRO");
+            if(!tarefasFiltradas) return toastr.error("Erro ao carregar as tarefas!", "ERRO");
+            tarefas = tarefasFiltradas;
         }
+        else{
+            tarefas = tarefasSubject.getValue();
+        } 
+
+        if (dataInicio && dataFim){
+            if(validacaoData(dataInicio) && validacaoData(dataFim)){
+                tarefas = filtrarPorData(tarefas, dataInicio, dataFim);
+            }
+            else {
+                return toastr.error("Informe uma data de inicio e fim validas!", "ERRO");
+            }
+        }
+
+        tarefasSubject.next(tarefas)
     });   
 }
 
 function limparFiltro() {
     $('#btnLimparFiltro').click(async () => {
-        await pegarTarefas();
+        recarregarTarefas();
         $('#status').val("");
         $('#inpDataInicio').val("");
         $('#inpDataFim').val("");
@@ -160,6 +176,12 @@ function renderizarTarefas(lista, listaTarefasEl) {
 
         listaTarefasEl.append(li);
     });
+}
+
+export async function recarregarTarefas() {
+    const tarefas = await pegarTarefas();
+    if(!tarefas) return toastr.error("Erro a carregar tarefas!", "ERRO");
+    tarefasSubject.next(tarefas);
 }
 
 main()

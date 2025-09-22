@@ -4,7 +4,7 @@
       "id": "3",
       "titulo": "Atualizar site",
       "descricao": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc augue nisl, euismod eget lacinia sit amet, vulputate id nulla. Donec pulvinar vehicula fringilla",
-      "data": "2025-11-15",
+      "data": "2025-11-13",
       "status": "pendente"
     },
     {
@@ -19,7 +19,7 @@
       "titulo": "Treinamento",
       "descricao": "Participar do treinamento sobre segurança do trabalho",
       "data": "2025-09-30",
-      "status": "andamento"
+      "status": "concluida"
     },
     {
       "id": "116c",

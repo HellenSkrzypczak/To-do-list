@@ -1,0 +1,15 @@
+{
+  "name": "treinamento",
+  "version": "1.0.0",
+  "description": "Um sistema simples para **cadastrar, editar, remover e filtrar tarefas**, desenvolvido em **HTML, CSS e JavaScript (com jQuery)**.  \r O backend é simulado utilizando o [json-server](https://github.com/typicode/json-server).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "localhost": "json-server --watch db.json --port 3000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
