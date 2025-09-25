@@ -6,6 +6,9 @@ const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
 
 async function main() {
+    tarefasSubject.subscribe((tarefas) => {
+        renderizarTarefas(tarefas, listaTarefasEl);
+    });
     recarregarTarefas()
     inicializarCadastro(listaTarefasEl);
     setarEventoAcaoEditar(listaTarefasEl);
@@ -15,9 +18,6 @@ async function main() {
     limparFiltro();
 }
 
-tarefasSubject.subscribe((tarefas) => {
-    renderizarTarefas(tarefas, listaTarefasEl);
-});
 
 function setarEventoAcaoEditar(listaTarefasEl) {
     listaTarefasEl.on('click', '#btnEditar', function() {

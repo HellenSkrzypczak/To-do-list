@@ -121,7 +121,7 @@ html, body{
     background: transparent;
     cursor: pointer; 
 }
-.la-search, .la-undo-alt{
+.las{
     margin-top: 1rem;
     font-size: 2rem;
 }

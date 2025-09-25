@@ -67,8 +67,17 @@
                     <input type="date" id="inpDataFim" class="input">
                 </div>
                 <div class="div-btns-filtro">
-                    <button id="btnFiltrar" class="btnFiltro" title="Filtrar"><i class="las la-search"></i></button>
+                    <button id="btnFiltrar" class="btnFiltro" title="Filtrar lista"><i class="las la-search"></i></button>
                     <button id="btnLimparFiltro" class="btnLimpar" title="Limpar filtro"><i class="las la-undo-alt"></i></button>
+                    <button id="btnOrdenar" title="Ordenar lista"><i class="las la-sort-amount-down-alt"></i></button>
+                        <div id="menuOrdenar" class="dropdown-content">
+                            <a data-value="">Sem ordenação</a>
+                            <a data-value="data-asc">Data ↑</a>
+                            <a data-value="data-desc">Data ↓</a>
+                            <a data-value="titulo-asc">Título A → Z</a>
+                            <a data-value="titulo-desc">Título Z → A</a>
+                            <a data-value="status">Status</a>
+                        </div>
                 </div>
             </div>  
             <section class="grid-lista-tarefas">
