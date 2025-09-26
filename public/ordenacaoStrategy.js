@@ -1,5 +1,5 @@
 class SortStrategy {
-    ordenar(tarefas) {return tarefas}
+    ordenar(tarefas) { return tarefas; }
 }
 
 export class NoSort extends SortStrategy{
@@ -8,13 +8,13 @@ export class NoSort extends SortStrategy{
     }
 }
 
-export class SortByDataAsc extends SortStrategy{
+export class SortByDateAsc extends SortStrategy{
     ordenar(tarefas) {
         return [...tarefas].sort((a,b) => new Date(a.data) - new Date(b.data));
     }
 }
 
-export class SortByDataDesc extends SortStrategy{
+export class SortByDateDesc extends SortStrategy{
     ordenar(tarefas) {
         return [...tarefas].sort((a,b) => new Date(b.data) - new Date(a.data));
     }

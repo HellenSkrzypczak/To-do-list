@@ -1,6 +1,10 @@
 import { editarTarefa, removerTarefa, filtroPorStatus, mudarStatusTarefa, pegarTarefas } from './tarefas.js';
 import { inicializarCadastro, validacaoData, filtrarPorData,  validacaoCampos} from './cadastro.js';
 import { tarefasSubject } from './tarefasSubject.js';
+import { OrdenacaoContext, NoSort, SortByDateAsc, SortByDateDesc, SortByTitleAsc, SortByTitleDesc, SortByStatus } from './ordenacaoStrategy.js';
+
+let rawTarefas = [];
+const ordenacaoContext = new OrdenacaoContext(new NoSort());
 
 const listaTarefasEl = $('#lista-tarefas');
 const btnFiltrarEl = $('#btnFiltrar');
@@ -15,6 +19,7 @@ async function main() {
     setarEventoAcaoExcluirTarefa(listaTarefasEl);
     setarEventoAcaoAlterarStatusTarefa(listaTarefasEl);
     setarEventoAcaoFiltrarTarefa(btnFiltrarEl, listaTarefasEl);
+    setarEventoOrdenacao();
     limparFiltro();
 }
 
@@ -141,6 +146,24 @@ function limparFiltro() {
         $('#inpDataFim').val("");
     })    
 }
+
+function setarEventoOrdenacao() {
+    const selecOrdenarEl  = $('#ordenar');
+
+    selecOrdenarEl.change(() => {
+        const val = selecOrdenarEl.val();
+        switch(val) {
+            case 'data-asc': ordenacaoContext.setStrategy(new SortByDateAsc()); break;
+            case 'data-desc': ordenacaoContext.setStrategy(new SortByDateDesc()); break;
+            case 'titulo-asc': ordenacaoContext.setStrategy(new SortByTitleAsc()); break;
+            case 'titulo-desc': ordenacaoContext.setStrategy(new SortByTitleDesc()); break;
+            case 'status': ordenacaoContext.setStrategy(new SortByStatus()); break;
+            default: ordenacaoContext.setStrategy(new NoSort());
+        }
+        tarefasSubject.next(ordenacaoContext.ordenar(rawTarefas));
+    })
+}
+
 function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
 
@@ -163,8 +186,8 @@ function renderizarTarefas(lista, listaTarefasEl) {
                         </div>
         
                         <div class="div-btn">
-                            <button id="btnEditar" data-modal="modal" class="btnTarefa" title="Editar"><i class="las la-pencil-alt"></i></button>
-                            <button id="btnExcluir" class="btnTarefa"><i class="las la-trash" title="Excluir"></i></button>
+                            <button id="btnEditar" data-modal="modal" class="btn btn--icon" title="Editar"><i class="las la-pencil-alt"></i></button>
+                            <button id="btnExcluir" class="btn btn--icon"><i class="las la-trash" title="Excluir"></i></button>
                         </div>
                     </div>
                 </div>
@@ -181,7 +204,8 @@ function renderizarTarefas(lista, listaTarefasEl) {
 export async function recarregarTarefas() {
     const tarefas = await pegarTarefas();
     if(!tarefas) return toastr.error("Erro a carregar tarefas!", "ERRO");
-    tarefasSubject.next(tarefas);
+    rawTarefas = tarefas;
+    tarefasSubject.next(ordenacaoContext.ordenar(rawTarefas));
 }
 
 main()

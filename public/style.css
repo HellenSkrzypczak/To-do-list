@@ -1,4 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+:root {
+  --cor-primaria: #ffae00;
+  --cinza: #8f9191;
+  --cinza-claro: #ebebeb;
+  --cinza-borda: rgba(0, 0, 0, 0.144);
+  --cinza-texto: rgba(0, 0, 0, 0.74);
+  --cinza-secundario: rgba(0, 0, 0, 0.486);
+}
 
 /*ESTRUTURA GERAL*/
 *{
@@ -17,15 +25,28 @@ html, body{
     border: none;
     padding: 0.5rem;
     border-radius: 1rem;
-    background-color: #ffae00;
+    background-color: var(--cor-primaria);
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 1rem;
 }
-.btn:hover{
-    background-color: #ffbc2a;
-    color: aliceblue;
+.btn--icon {
+  background: transparent;
+  padding: 0.25rem;
 }
 
+.campos {
+    border-color: rgba(96, 97, 97, 0.192);
+    color: rgb(143, 145, 145);
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+.campos:hover {
+  border-color: #999;
+  background-color: #fff;
+}
 /*MAIN*/
 .grid-principal{
     display: flex;
@@ -60,14 +81,6 @@ html, body{
 .div-titulo{
     display: inline-block;
 }
-.input{
-    border-color: rgba(96, 97, 97, 0.192);
-    color: rgb(143, 145, 145);
-    border-radius: 0.5rem;
-    width: 100%;
-    min-width: 9rem;
-    padding: 0.5rem;    
-}
 .data{
     max-width: 20%;
 }
@@ -87,57 +100,75 @@ html, body{
     width: 50vw;
     margin: 0 auto;
     border: 1px solid rgba(0, 0, 0, 0.144);
-    border-radius: 1.5rem;
-    flex-wrap: wrap
+    border-radius: 1rem;
+    flex-wrap: wrap;
+    margin: 0;
+    background-color: #ebebeb;
 }
 .div-filtro{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 1rem;
     padding: 0.5rem 1rem 1rem 1rem;
     margin: 0 auto;
     flex-wrap: wrap;
-    width: 100%;
-    background-color: #cccccc1f;
 }
 .div-filtro > div {
     flex: 1;
 }
-
 .label{
     font-size: 0.8rem;
 }
 .div-btns-filtro{
     display: flex;
-    justify-content:center;
-    max-width: 10%;
+    max-width: 5vw;
+    justify-content: center;
     gap: 1rem;
-    
 }
-.btnFiltro, .btnLimpar{
-    border: none;
-    background: transparent;
-    cursor: pointer; 
-}
+
 .las{
     margin-top: 1rem;
     font-size: 2rem;
 }
-
+.grid-campo-filtro-ordem{
+    display: flex;
+    max-width: 50%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 1rem;
+}
+.div-ordenacao{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.144);
+    border-radius: 1rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+    background-color: #ebebeb;
+}
 /**GRID TAREFA**/
 .grid-lista-tarefas{
     display: flex;
     flex-direction: column;
+    margin: 0;
+    gap: 0.5rem;
     width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 .tarefa{
     display: flex;
     flex-direction: column;
-    width: 100%;
-    border-top: 1px solid rgba(112, 112, 112, 0.322);
-    padding: 1.5rem;
+    justify-content: center;
+    max-width: 50vw;
+    border: 1px solid rgba(112, 112, 112, 0.322);
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
 }
 li.tarefa:not(:last-child) {
     margin-bottom: 0.5rem;
@@ -164,7 +195,7 @@ li.tarefa:not(:last-child) {
 }
 .input-status{
     border: none;
-    border-radius: 10px;
+    border-radius: 0.5rem;
     padding: 0.2rem 0.1rem;
     text-align: center;
     transition: all 0.3s ease;
@@ -175,14 +206,7 @@ li.tarefa:not(:last-child) {
     flex-direction: row;
     gap: 20px;
 }
-.btnTarefa {
-    display: flex;
-    flex-direction: row;
-    border: none;
-    background-color:rgb(255, 255, 255);
-    padding-right: 2px;
-    cursor: pointer; 
-}
+
 .la-pencil-alt, .la-trash{
     font-size: 20px;
     height: auto;
@@ -233,7 +257,7 @@ dialog::backdrop {
 }
 
 
-@media (max-width: 1200px) { 
+@media (max-width: 1300px) { 
     .div-header{
         display: flex;
         flex-direction: column;
@@ -260,6 +284,13 @@ dialog::backdrop {
     .div-campo-media{
        width: 100%; 
     }
+    .grid-campo-filtro-ordem{
+        display: flex;
+        flex-direction: column;
+    }
+    .div-ordenacao{
+        min-width: 100%;
+    }
 }
 
 @media (max-width: 992px) {
@@ -285,9 +316,6 @@ dialog::backdrop {
         justify-content: center;
         padding: 1rem;
         margin-top: 20px;
-    }
-    .status{
-        width: 100%;
     }
     .tarefa-descricao{
         text-align: justify;
