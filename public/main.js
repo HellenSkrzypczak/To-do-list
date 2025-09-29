@@ -170,29 +170,29 @@ function renderizarTarefas(lista, listaTarefasEl) {
     lista.forEach((tarefa) => {
         const li = $(`
             <li class="tarefa" data-id="${tarefa.id}">
-                <div class="div-header">
-                    <div class="div-titulo"><h3 class="titulo"><strong>${tarefa.titulo}</strong></h3></div>
+                <div class="tarefa__header">
+                    <div><h3><strong>${tarefa.titulo}</strong></h3></div>
         
-                    <div class="div-data-section-btn">
-                        <div class="div-data">
-                            <p class="text">${moment(tarefa.data, "YYYY-MM-DD").format("DD/MM/YYYY")}</p>
+                    <div class="tarefa__fields">
+                        <div>
+                            <p>${moment(tarefa.data, "YYYY-MM-DD").format("DD/MM/YYYY")}</p>
                         </div>
                         <div>
-                            <select class="input-status">
+                            <select class="tarefa__status">
                                 <option value="pendente"  ${tarefa.status === "pendente"  ? "selected" : "" }>Pendente</option>
                                 <option value="andamento" ${tarefa.status === "andamento" ? "selected" : ""}>Em andamento</option>
                                 <option value="concluida" ${tarefa.status === "concluida" ? "selected" : ""}>Concluída</option>
                             </select>
                         </div>
         
-                        <div class="div-btn">
-                            <button id="btnEditar" data-modal="modal" class="btn btn--icon" title="Editar"><i class="las la-pencil-alt"></i></button>
-                            <button id="btnExcluir" class="btn btn--icon"><i class="las la-trash" title="Excluir"></i></button>
+                        <div class="tarefa__actions">
+                            <button id="btnEditar" class="btn btn--icon" title="Editar"><i class="las la-pencil-alt"></i></button>
+                            <button id="btnExcluir" class="btn btn--icon" title="Excluir"><i class="las la-trash" title="Excluir"></i></button>
                         </div>
                     </div>
                 </div>
-                <div class="div-descricao">
-                    <p class="tarefa-descricao">${tarefa.descricao}</p>
+                <div>
+                    <p class="tarefa__descricao">${tarefa.descricao}</p>
                 </div>
             </li>
         `);

@@ -22,95 +22,94 @@
 </head>
 <body>
     <main>
-        <div class="grid-principal">
-            <header class="header-principal">
+        <div class="cadastro">
+            <header class="cadastro__header">
                 <h1>Cadastro de Tarefas</h1>
                 <p>Gerencie suas tarefas diárias</p>
             </header>
         
-            <section class="cadastro-tarefas">
+            <section class="cadastro__fields">
                 <div>
-                    <label class="titulo" for="titulo">Tarefa</label>
+                    <label class="form-label" for="titulo">Tarefa</label>
                     <input type="text" id="inputTitulo" class="campos" name="tituloDaTarefa" placeholder="Digite o título da tarefa">
                 </div>
                 <div>
-                    <label class="titulo" for="inputDescricao">Descrição</label>
-                    <textarea id="inputDescricao" rows="5" class="campos descricao" placeholder="Digite a descrição da tarefa"></textarea>
+                    <label class="form-label" for="inputDescricao">Descrição</label>
+                    <textarea id="inputDescricao" rows="5" class="campos input--descricao" placeholder="Digite a descrição da tarefa"></textarea>
                 </div>
                 <div>
-                    <label class="titulo" for="inputData">Data</label>
-                    <div class="div-data-btn">
-                        <input type="date" id="inputData" class="campos data" name="dataDeVenciemtno">
-                        <button id="btnCadastrar" class="btn btnCadastro">Cadastrar</button>
+                    <label class="form-label" for="inputData">Data</label>
+                    <div class="cadastro__date-button">
+                        <input type="date" id="inputData" class="campos input--data" name="dataDeVenciemtno">
+                        <button id="btnCadastrar" class="btn">Cadastrar</button>
                     </div>
                 </div>
             </section>
         </div>
 
-        <div class="grid-campo-filtro-ordem">
-            <section class="grid-filtro">
-                <div class="div-filtro">
-                    <div class="div-campo-media">
-                        <label for="status" class="label">Status</label>
-                        <select id="status" name="status" class="campos">
-                            <option value="">Selecione...</option>
-                            <option value="pendente">Pendente</option>
-                            <option value="andamento">Em andamento</option>
-                            <option value="concluida">Concluída</option>
-                        </select>
-                    </div>
-                    <div class="div-campo-media">
-                        <label for="inpDataInicio" class="label">Data inicio</label>
-                        <input type="date" id="inpDataInicio" class="campos" >
-                    </div>
-                    <div class="div-campo-media">
-                        <label for="inpDataFim" class="label">Data fim</label>
-                        <input type="date" id="inpDataFim" class="campos">
-                    </div>
-                    <div class="div-btns-filtro">
-                        <button id="btnFiltrar" class="btn btn--icon" title="Filtrar lista"><i class="las la-search"></i></button>
-                        <button id="btnLimparFiltro" class="btn btn--icon" title="Limpar filtro"><i class="las la-undo-alt"></i></button>
-                    </div>
+        <section class="filter">
+            <div class="filter__fields box">
+                <div class="filter__media">
+                    <label for="status" class="filter__label">Status</label>
+                    <select id="status" name="status" class="campos">
+                        <option value="">Selecione...</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="andamento">Em andamento</option>
+                        <option value="concluida">Concluída</option>
+                    </select>
                 </div>
-            </section>
-
-            <div class="div-ordenacao">
-                <label for="inpOrdenar" class="label">Ordenar por: </label>
-                <select id="ordenar" class="campos">
-                    <option value="">Sem ordenação</option>
-                        <option value="data-asc">Data ↑</option>
-                        <option value="data-desc">Data ↓</option>
-                        <option value="titulo-asc">Título A → Z</option>
-                        <option value="titulo-desc">Título Z → A</option>
-                        <option value="status">Status</option>
-                </select>
+                <div class="filter__media">
+                    <label for="inpDataInicio" class="filter__label">Data inicio</label>
+                    <input type="date" id="inpDataInicio" class="campos" >
+                </div>
+                <div class="filter__media">
+                    <label for="inpDataFim" class="filter__label">Data fim</label>
+                    <input type="date" id="inpDataFim" class="campos">
+                </div>
+                <div class="filter__actions">
+                    <button id="btnFiltrar" class="btn btn--icon" title="Filtrar lista"><i class="las la-search"></i></button>
+                    <button id="btnLimparFiltro" class="btn btn--icon" title="Limpar filtro"><i class="las la-undo-alt"></i></button>
+                </div>  
             </div>
-        </div>
 
-        <div class="grid-lista-tarefas">
+            <div class="ordenar box">
+                <div>
+                    <label for="inpOrdenar" class="filter__label">Ordenar por: </label>
+                    <select id="ordenar" class="campos">
+                        <option value="">Sem ordenação</option>
+                            <option value="data-asc">Data ↑</option>
+                            <option value="data-desc">Data ↓</option>
+                            <option value="titulo-asc">Título A → Z</option>
+                            <option value="titulo-desc">Título Z → A</option>
+                            <option value="status">Status</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-tarefas">
             <ul id="lista-tarefas"></ul>
-        </div>
+        </section>
         
         <dialog id="modalEditar" class="modal">
-            <form method="dialog" class="form-modal">
-                <h2 class="tituloModal">Editar tarefa</h2>
+            <form method="dialog" class="modal__form">
+                <h2 class="modal__titulo">Editar tarefa</h2>
                 <div>
-                    <label class="titulo" for="modalTitulo">Tarefa</label>
+                    <label class="modal__titulo" for="modalTitulo">Tarefa</label>
                     <input type="text" id="modalTitulo" class="campos" name="tituloDaTarefa">
                 </div>
                 <div>
-                    <label class="titulo" for="modalDescricao">Descrição</label>
-                    <textarea id="modalDescricao" rows="5" class="campos descricao"></textarea>
+                    <label class="modal__titulo" for="modalDescricao">Descrição</label>
+                    <textarea id="modalDescricao" rows="5" class="campos"></textarea>
                 </div>
-                <div class="grid-data-status">
-                    <div class="div-data-status">
-                        <label class="titulo" for="modalData">Data</label>
-                        <input type="date" id="modalData" class="campos dataModal" name="dataDeVencimento">
+                <div class="modal__fields">
+                    <div>
+                        <label class="modal__titulo" for="modalData">Data</label>
+                        <input type="date" id="modalData" class="campos" name="dataDeVencimento">
                     </div>
-
-                    <div class="div-data-status">
-                        <label for="status" class="titulo">Status</label>
-                        <select id="modalStatus"  class="campos">
+                    <div>
+                        <label for="status" class="modal__titulo">Status</label>
+                        <select id="modalStatus" class="campos">
                             <option value="">Selecione...</option>
                             <option value="pendente">Pendente</option>
                             <option value="andamento">Em andamento</option>
@@ -118,10 +117,9 @@
                         </select>
                     </div>
                 </div>
-
-                <menu class="menu-modal">
-                    <button value="cancelar" id="btnCancelar" class="btn">Cancelar</button>
+                <menu class="modal__actions">
                     <button value="confirmar" id="btnConfirmar" class="btn">Confirmar</button>
+                    <button value="cancelar" id="btnCancelar" class="btn">Cancelar</button>
                 </menu>
             </form>
         </dialog>
