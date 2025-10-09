@@ -22,94 +22,94 @@
 </head>
 <body>
     <main>
-        <div class="cadastro">
-            <header class="cadastro__header">
+        <section class="cadastro layout-container">
+            <header class="cadastro__header ">
                 <h1>Cadastro de Tarefas</h1>
                 <p>Gerencie suas tarefas diárias</p>
             </header>
         
-            <section class="cadastro__fields">
+            <div class="cadastro__fields">
                 <div>
-                    <label class="form-label" for="titulo">Tarefa</label>
-                    <input type="text" id="inputTitulo" class="campos" name="tituloDaTarefa" placeholder="Digite o título da tarefa">
+                    <label class="form-label" for="inputTitulo">Tarefa</label>
+                    <input type="text" id="inputTitulo" class="campos" name="tituloDaTarefa" placeholder="  Digite o título da tarefa" title="Digite o título da tarefa">
                 </div>
                 <div>
                     <label class="form-label" for="inputDescricao">Descrição</label>
-                    <textarea id="inputDescricao" rows="5" class="campos input--descricao" placeholder="Digite a descrição da tarefa"></textarea>
+                    <textarea id="inputDescricao" rows="5" class="campos input--descricao" title="Digite a descrição da tarefa"placeholder="  Digite a descrição da tarefa"></textarea>
                 </div>
                 <div>
                     <label class="form-label" for="inputData">Data</label>
                     <div class="cadastro__date-button">
-                        <input type="date" id="inputData" class="campos input--data" name="dataDeVenciemtno">
-                        <button id="btnCadastrar" class="btn">Cadastrar</button>
+                        <input type="date" id="inputData" class="campos input--data" name="dataDeVenciemtno" title="Escolha a data de vencimento">
+                        <button id="btnCadastrar" title="Cadastrar uma nova tarefa" class="btn">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="content layout-container">
+            <section class="filter">
+                <div class="filter__fields box">
+                    <div class="filter__media">
+                        <label for="status" class="filter__label">Status</label>
+                        <select id="status" name="status" class="campos" title="Filtrar tarefas pelo status">
+                            <option value="">Selecione...</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="andamento">Em andamento</option>
+                            <option value="concluida">Concluída</option>
+                        </select>
+                    </div>
+                    <div class="filter__media">
+                        <label for="inpDataInicio" class="filter__label" >Data inicio</label>
+                        <input type="date" id="inpDataInicio" class="campos" title="Escolha a data inicial para o filtro">
+                    </div>
+                    <div class="filter__media">
+                        <label for="inpDataFim" class="filter__label">Data fim</label>
+                        <input type="date" id="inpDataFim" class="campos"  title="Escolha a data final para o filtro">
+                    </div>
+                    <div class="filter__actions">
+                        <button id="btnFiltrar" class="btn btn--icon" title="Filtrar lista"><i class="las la-search"></i></button>
+                        <button id="btnLimparFiltro" class="btn btn--icon" title="Limpar filtro"><i class="las la-undo-alt"></i></button>
+                    </div>
+                </div>
+                <div class="ordenar box">
+                    <div>
+                        <label for="inpOrdenar" class="filter__label">Ordenar por: </label>
+                        <select id="ordenar" class="campos" title="Ordenar lista de tarefas">
+                            <option value="">Sem ordenação</option>
+                                <option value="data-asc">Data ↑</option>
+                                <option value="data-desc">Data ↓</option>
+                                <option value="titulo-asc">Título A → Z</option>
+                                <option value="titulo-desc">Título Z → A</option>
+                                <option value="status">Status</option>
+                        </select>
                     </div>
                 </div>
             </section>
+            <section class="grid-tarefas">
+                <ul id="lista-tarefas"></ul>
+            </section>
         </div>
-
-        <section class="filter">
-            <div class="filter__fields box">
-                <div class="filter__media">
-                    <label for="status" class="filter__label">Status</label>
-                    <select id="status" name="status" class="campos">
-                        <option value="">Selecione...</option>
-                        <option value="pendente">Pendente</option>
-                        <option value="andamento">Em andamento</option>
-                        <option value="concluida">Concluída</option>
-                    </select>
-                </div>
-                <div class="filter__media">
-                    <label for="inpDataInicio" class="filter__label">Data inicio</label>
-                    <input type="date" id="inpDataInicio" class="campos" >
-                </div>
-                <div class="filter__media">
-                    <label for="inpDataFim" class="filter__label">Data fim</label>
-                    <input type="date" id="inpDataFim" class="campos">
-                </div>
-                <div class="filter__actions">
-                    <button id="btnFiltrar" class="btn btn--icon" title="Filtrar lista"><i class="las la-search"></i></button>
-                    <button id="btnLimparFiltro" class="btn btn--icon" title="Limpar filtro"><i class="las la-undo-alt"></i></button>
-                </div>  
-            </div>
-
-            <div class="ordenar box">
-                <div>
-                    <label for="inpOrdenar" class="filter__label">Ordenar por: </label>
-                    <select id="ordenar" class="campos">
-                        <option value="">Sem ordenação</option>
-                            <option value="data-asc">Data ↑</option>
-                            <option value="data-desc">Data ↓</option>
-                            <option value="titulo-asc">Título A → Z</option>
-                            <option value="titulo-desc">Título Z → A</option>
-                            <option value="status">Status</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-
-        <section class="grid-tarefas">
-            <ul id="lista-tarefas"></ul>
-        </section>
         
         <dialog id="modalEditar" class="modal">
             <form method="dialog" class="modal__form">
                 <h2 class="modal__titulo">Editar tarefa</h2>
                 <div>
                     <label class="modal__titulo" for="modalTitulo">Tarefa</label>
-                    <input type="text" id="modalTitulo" class="campos" name="tituloDaTarefa">
+                    <input type="text" id="modalTitulo" class="campos" name="tituloDaTarefa" title="Edite o título da tarefa">
                 </div>
                 <div>
                     <label class="modal__titulo" for="modalDescricao">Descrição</label>
-                    <textarea id="modalDescricao" rows="5" class="campos"></textarea>
+                    <textarea id="modalDescricao" rows="5" class="campos" title="Edite a descrição da tarefa"></textarea>
                 </div>
                 <div class="modal__fields">
                     <div>
                         <label class="modal__titulo" for="modalData">Data</label>
-                        <input type="date" id="modalData" class="campos" name="dataDeVencimento">
+                        <input type="date" id="modalData" class="campos" name="dataDeVencimento" title="Edite a data de vencimento da tarefa">
                     </div>
                     <div>
-                        <label for="status" class="modal__titulo">Status</label>
-                        <select id="modalStatus" class="campos">
+                        <label for="modalStatus" class="modal__titulo">Status</label>
+                        <select id="modalStatus" class="campos" title="Altere o status da tarefa">
                             <option value="">Selecione...</option>
                             <option value="pendente">Pendente</option>
                             <option value="andamento">Em andamento</option>
@@ -118,8 +118,8 @@
                     </div>
                 </div>
                 <menu class="modal__actions">
-                    <button value="confirmar" id="btnConfirmar" class="btn">Confirmar</button>
-                    <button value="cancelar" id="btnCancelar" class="btn">Cancelar</button>
+                    <button value="confirmar" id="btnConfirmar" class="btn" title="Salvar alterações da tarefa">Confirmar</button>
+                    <button value="cancelar" id="btnCancelar" class="btn" title="Cancelar edição e fechar modal">Cancelar</button>
                 </menu>
             </form>
         </dialog>

@@ -22,23 +22,27 @@ html, body{
 body {
   min-height: 100vh;
   margin: 0;
-  background: #fffdf9; /* base bem clara */
+  background: #a7a7a7;
   position: relative;
+  background-color: #cccbcb85;
 }
 
 body::before {
   /*content: "";*/
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 25% 30%, rgba(255, 180, 100, 0.6), transparent 60%),
-              radial-gradient(circle at 70% 40%, rgba(255, 200, 130, 0.5), transparent 70%),
-              radial-gradient(circle at 40% 75%, rgba(255, 160, 80, 0.4), transparent 65%);
-  filter: blur(70px);
+  background: radial-gradient(circle at 30% 25%, rgba(255, 200, 150, 0.35), transparent 70%),
+              radial-gradient(circle at 70% 40%, rgba(255, 180, 120, 0.25), transparent 70%),
+              radial-gradient(circle at 50% 75%, rgba(255, 210, 170, 0.3), transparent 70%);
+  filter: blur(80px);
   z-index: -1;
 }
 
-
 /**BUTTON | INPUT | LABEL**/
+input, select, textarea {
+  background-color: #f9f9f971; 
+  cursor: pointer;
+}
 .btn{
     border: none;
     padding: 0.5rem;
@@ -60,15 +64,15 @@ body::before {
 }
 
 .campos {
-    border: 1px solid var(--cinza-borda);
+    border: 1px solid rgba(201, 197, 197, 0.479);
     color: var(--cinza);
     width: 100%;
     padding: 0.3rem 0.1rem;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
 }
 .campos:hover {
-    border-color: #999;
-    background-color: #fff;
+    border-color: var(--cor-primaria);
+    background-color: #ffffff6e;
 }
 .input--data{
   max-width: 20%;
@@ -90,6 +94,16 @@ body::before {
     height: auto;
 }
 
+.layout-container{
+    margin: 0 auto;
+    background-color: #ffffff31;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.content{
+    max-width: 50%;
+}
 /**CADASTRO**/
 .cadastro{
     display: flex;
@@ -97,14 +111,9 @@ body::before {
     align-items: center;
     width: 50vw;
     margin: 0 auto;
-    padding: 1.5rem 0; 
-
-    background-color: #ffffffa1;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.068);
-    border-radius: 1rem;
-    padding: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 .cadastro__header{
     padding-bottom: 2rem;
@@ -112,33 +121,36 @@ body::before {
     color: var(--cinza-texto);
 }
 .cadastro__header > p { color: var(--cinza-secundario); }
-
 .cadastro__fields{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 90%;
     gap: 1.5rem;
 }
 .cadastro__date-button{ display: flex; justify-content: space-between; }
 
+
 /**FILTRO**/
 .box {
     display: flex;
-    border: 0.1rem solid var(--cinza-borda);
+    background-color: #ffffffad;
+    border: 0.1rem solid var(--cinza-claro);
     border-radius: 1rem;
     flex-wrap: wrap;
     align-items: center;
     padding: 0.5rem 1rem 1rem 1rem;
     gap: 1rem;
+    border: 1px solid #8f919149;
+    border-radius: 1rem;
 }
 .filter{
     display: flex;
-    max-width: 50%;
+    min-width: 100%;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 .filter__fields { width: 50vw; }
 .filter__fields > div { flex: 1; }
@@ -165,14 +177,16 @@ body::before {
     display: flex;
     flex-direction: column;
     max-width: 50vw;
-    border: 1px solid rgba(112, 112, 112, 0.322);
+    background-color: #ffffff5d;
+    border: 1px solid rgba(201, 197, 197, 0.212);
+    box-shadow: 0 2px 2px rgba(134, 134, 134, 0.1);
     padding: 1rem;
     margin-top: 1rem;
     border-radius: 1rem;
 }
 .tarefa:hover{
-    border-color: #999;
-    background-color: #fff;
+    border-color: var(--cinza-claro);
+    background-color: #ffffff9f;
 }
 .tarefa__header{
     display: flex;
@@ -181,7 +195,6 @@ body::before {
 }
 .tarefa__header h3 { font-size: 1.2rem; }
 .tarefa__descricao { color: var(--cinza); }
-
 .tarefa__fields{
     display: flex;
     flex-direction: row;
@@ -246,18 +259,11 @@ dialog::backdrop {
         flex-direction: column;
         width: 100%;
     }
-    .filter__media{
-       width: 100%; 
-    }
-    .ordenar{
-        min-width: 50%;
-    }
-    .tarefa__fields p{
-        padding-left: 1rem;
-    }
-    .tarefa__descricao {
-        padding-top: 0.5rem;
-    }
+    .filter__media{ width: 100%; }
+    .ordenar{ min-width: 50%; }
+    .box{ max-width: 90%; }
+    .tarefa__fields p{ padding-left: 1rem; }
+    .tarefa__descricao { padding-top: 0.5rem; }
 }
 
 @media (max-width: 992px) {
@@ -276,9 +282,8 @@ dialog::backdrop {
         gap: 0.5rem;
     }
     .tarefa__fields p {padding: 0; }
-    .tarefa__fields { justify-content: space-between; min-width: 100%; margin: 0;}
-    
-    
+    .tarefa__fields { justify-content: space-between; min-width: 100%; margin: 0;}  
+    .box, .ordenar{ min-width: 100%; }
 }
 
 @media (max-width: 768px) {
@@ -298,9 +303,9 @@ dialog::backdrop {
     }
     .modal__actions{
         justify-content: center;
-    }
-    
+    } 
 }
+/*JQUERY*/
 .jconfirm .jconfirm-box {
   max-width: 600px !important;
   width: 90% !important; 

@@ -36,11 +36,11 @@
       "status": "pendente"
     },
     {
-      "id": "bfac",
-      "titulo": "Fazer o trabalho da escola",
+      "titulo": "Treinamento",
       "descricao": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc augue nisl, euismod eget lacinia sit amet, vulputate id nulla. Donec pulvinar vehicula fringilla",
-      "data": "2025-09-30",
-      "status": "andamento"
+      "data": "2025-01-01",
+      "status": "pendente",
+      "id": "sk3btkl"
     }
   ]
 }

@@ -10,32 +10,32 @@ export class NoSort extends SortStrategy{
 
 export class SortByDateAsc extends SortStrategy{
     ordenar(tarefas) {
-        return [...tarefas].sort((a,b) => new Date(a.data) - new Date(b.data));
+        return tarefas.toSorted((a,b) => new Date(a.data) - new Date(b.data));
     }
 }
 
 export class SortByDateDesc extends SortStrategy{
     ordenar(tarefas) {
-        return [...tarefas].sort((a,b) => new Date(b.data) - new Date(a.data));
+        return tarefas.toSorted((a,b) => new Date(b.data) - new Date(a.data));
     }
 }
 
 export class SortByTitleAsc extends SortStrategy{
     ordenar(tarefas){
-        return [...tarefas].sort((a,b) => (a.titulo || '').localeCompare(b.titulo || '') );
+        return tarefas.toSorted((a,b) => (a.titulo || '').localeCompare(b.titulo || '') );
     }
 }
 
 export class SortByTitleDesc extends SortStrategy{
     ordenar(tarefas) {
-        return [...tarefas].sort((a,b) => (b.titulo || '').localeCompare(a.titulo || '') );
+        return tarefas.toSorted((a,b) => (b.titulo || '').localeCompare(a.titulo || '') );
     }
 }
 
 export class SortByStatus extends SortStrategy {
     ordenar(tarefas) {
         const order = { pendente: 0, andamento: 1, concluida: 2};
-        return [...tarefas].sort((a,b) => (order[a.status] ?? 99) - (order[b.status] ?? 99))
+        return tarefas.toSorted((a,b) => (order[a.status] ?? 99) - (order[b.status] ?? 99))
     }
 }
 

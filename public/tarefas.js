@@ -42,10 +42,7 @@ export async function editarTarefa(id, titulo, descricao, data, status) {
 export async function removerTarefa(id) {
     try{
         const response = await fetch(`${URL}/${id}`, { method: "DELETE" });
-        if (response.ok){
-            return true;
-        }
-        return false;
+        return response.ok
     } catch(error){
         console.log(error);
         return false;
@@ -59,7 +56,7 @@ export async function filtroPorStatus(status) {
         return tarefasFiltro;
     } catch(error){
         console.log(error);
-        return false;
+        return null;
     };
 }
 
@@ -70,10 +67,7 @@ export async function mudarStatusTarefa(id, status) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({status})
         });
-        if (response.ok){
-            return true;
-        }
-        return false;
+        return response.ok
     } catch(error){
         console.log(error);
         return false
