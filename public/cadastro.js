@@ -1,6 +1,6 @@
 import { criarTarefa } from './tarefas.js';
 import {recarregarTarefas} from './main.js';
-import { validarCamposObrigatorios, validarData, validarIntervaloDatas } from './validacoes.js';
+
 export function limparCampos(){
     $('#inputTitulo').val("");
     $('#inputDescricao').val("");
@@ -9,24 +9,40 @@ export function limparCampos(){
 
 export function inicializarCadastro() {
     $('#btnCadastrar').click(async () => {
-        const titulo = $('#inputTitulo').val();
-        const descricao = $('#inputDescricao').val();
-        const valorData = $('#inputData').val();
+        const inputTitulo = $('#inputTitulo').val();
+        const inputDescricao = $('#inputDescricao').val();
+        const inputData = $('#inputData').val();
         const status = "pendente";
 
-        if (!validarCamposObrigatorios({ titulo, descricao, data: valorData })) return toastr.error("Preencha todos os campos!", "ERRO")
+        if (!validacaoCampos(inputTitulo, inputDescricao, inputData)) return toastr.error("Preencha todos os campos!", "ERRO")
 
-        const data = validarData(valorData);
-        if (!data) return toastr.error("Data inválida!", "ERRO");
+        const data = validacaoData(inputData)
+        if (!data) return toastr.error("Data inválida!", "ERRO")
         
         
-        const tarefasAtualizadas = await criarTarefa(titulo, descricao, data, status);
+        const tarefasAtualizadas = await criarTarefa(inputTitulo, inputDescricao, data, status);
         if (!tarefasAtualizadas) return toastr.error("Erro ao criar a tarefa. Tente novamente.", "ERRO");
-        await recarregarTarefas();
+        recarregarTarefas()
 
         limparCampos();   
         toastr.success("Tarefa criada com sucesso!");     
     });
+}
+
+export function validacaoData(data) {
+    const anoAtual = moment().startOf("year");
+    const dataValidada = moment(data, "YYYY-MM-DD", true);
+
+    if (dataValidada.isSameOrAfter(anoAtual) && dataValidada.isValid()) {
+        return dataValidada.format("YYYY-MM-DD");
+
+    } else {
+        return null;
+    } 
+}
+
+export function validacaoCampos(titulo, descricao, data){
+    return !!(titulo && descricao && data)
 }
 
 export function filtrarPorData(tarefas, dataI, dataF){

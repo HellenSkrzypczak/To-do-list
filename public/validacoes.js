@@ -1,5 +1,3 @@
-//import moment from "moment";
-
 export function validarCamposObrigatorios({ titulo, descricao, data }) {
     return titulo?.trim() && descricao?.trim() && data?.trim();
 }
