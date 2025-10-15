@@ -3,7 +3,15 @@ export function validarCamposObrigatorios({ titulo, descricao, data }) {
 }
 
 export function validarData(data) {
-    return moment(data, "YYYY-MM-DD", true).isValid();
+    const anoAtual = moment().startOf("year");
+    const dataValidada = moment(data, "YYYY-MM-DD", true);
+
+    if (dataValidada.isSameOrAfter(anoAtual) && dataValidada.isValid()) {
+        return dataValidada.format("YYYY-MM-DD");
+
+    } else {
+        return null;
+    } 
 }
 
 export function validarIntervaloDatas(dataInicio, dataFim) {

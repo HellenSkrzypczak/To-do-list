@@ -1,6 +1,7 @@
 import { criarTarefa } from './tarefas.js';
-import {recarregarTarefas} from '../main.js';
+import {recarregarTarefas} from './listaTarefas.js';
 import { validarCamposObrigatorios, validarData } from '../validacoes.js';
+
 
 export function limparCampos(){
     $('#inputTitulo').val("");
@@ -18,10 +19,13 @@ export function inicializarCadastro() {
         if (!validarCamposObrigatorios({ titulo, descricao, data: valorData })) return toastr.error("Preencha todos os campos!", "ERRO")
 
         const data = validarData(valorData);
-        if (!data) return toastr.error("Data inválida!", "ERRO");
-        
-        
+        if (!data) {
+            toastr.error("Data inválida!", "ERRO");
+            return;
+        }
+
         const tarefasAtualizadas = await criarTarefa(titulo, descricao, data, status);
+
         if (!tarefasAtualizadas) return toastr.error("Erro ao criar a tarefa. Tente novamente.", "ERRO");
         await recarregarTarefas();
 

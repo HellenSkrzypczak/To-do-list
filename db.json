@@ -11,15 +11,15 @@
       "id": "4",
       "titulo": "Enviar relatórios financeiros",
       "descricao": "Enviar os relatórios do mês de agosto para a diretoria",
-      "data": "2025-09-12",
-      "status": "andamento"
+      "data": "2025-09-20",
+      "status": "concluida"
     },
     {
       "id": "5",
       "titulo": "Treinamento",
       "descricao": "Participar do treinamento sobre segurança do trabalho.",
-      "data": "2025-09-30",
-      "status": "concluida"
+      "data": "2025-09-26",
+      "status": "pendente"
     },
     {
       "id": "116c",
@@ -32,8 +32,8 @@
       "id": "1ed2",
       "titulo": "Ir a farmacia",
       "descricao": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc augue nisl, euismod eget lacinia sit amet, vulputate id nulla. Donec pulvinar vehicula fringilla",
-      "data": "2025-10-15",
-      "status": "pendente"
+      "data": "2025-10-25",
+      "status": ""
     },
     {
       "titulo": "Treinamento",

@@ -1,6 +1,6 @@
 import { validarCamposObrigatorios, validarData } from './validacoes.js';
 import { editarTarefa } from './tarefas/tarefas.js';
-import { handleActionResult } from './eventHandlers.js';
+import { handleActionResult } from './tarefas/listaTarefas.js';
 
 export function abrirModalEditar(tarefa) {
     const modal = document.getElementById("modalEditar");
