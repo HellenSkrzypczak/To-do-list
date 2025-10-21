@@ -1,8 +1,23 @@
 import { filtroPorStatus } from "./tarefas.js";
 import { validarIntervaloDatas } from "../validacoes.js";
 
+export function configurarFiltro({ btnFiltrarEl, tarefasSubject, recarregarTarefas }) {
+    setarEventoAcaoFiltrarTarefa(btnFiltrarEl, tarefasSubject);
+    limparFiltro({ recarregarTarefas });
+}
 
-export async function filtrarPorStatusOuDatas(status, dataInicio, dataFim) {
+function setarEventoAcaoFiltrarTarefa(btnFiltrarEl, tarefasSubject) {
+    btnFiltrarEl.click(async () => {
+        const status = $('#status').val();
+        const dataInicio = $('#inpDataInicio').val();
+        const dataFim = $('#inpDataFim').val();
+
+        const tarefas = await filtrarPorStatusOuDatas(status, dataInicio, dataFim);
+        if (tarefas) tarefasSubject.next(tarefas);
+    });
+}
+
+async function filtrarPorStatusOuDatas(status, dataInicio, dataFim, tarefasSubject) {
     if (!status && !dataInicio && !dataFim) {
         toastr.error("Informe um status ou um período de datas para filtrar!", "Erro");
         return null;
@@ -26,4 +41,11 @@ export async function filtrarPorStatusOuDatas(status, dataInicio, dataFim) {
     }
 
     return tarefas;
+}
+
+export function limparFiltro({ recarregarTarefas }) {
+    $('#btnLimparFiltro').click(() => {
+        recarregarTarefas();
+        $('#status, #inpDataInicio, #inpDataFim').val("");
+    });
 }

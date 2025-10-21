@@ -1,25 +1,17 @@
 import { removerTarefa, mudarStatusTarefa, pegarTarefas } from './tarefas.js';
 import { abrirModalEditar } from '../modal.js';
 import { tarefasSubject } from './tarefasSubject.js';
-import { OrdenacaoContext, NoSort } from '../ordenacao/ordenacaoStrategy.js';
-import { ordenarTarefas } from '../ordenacao/ordenarTarefas.js';
-import { filtrarPorStatusOuDatas } from './filtrarTarefas.js';
 
 export function configurarListaTarefas({
     listaTarefasEl, 
-    btnFiltrarEl, 
-    selectOrdenarEl, 
+    btnFiltrarEl,  
     tarefasSubject, 
     recarregarTarefas, 
     filtroPorStatus}) {
 
-    const ordenacaoContext = new OrdenacaoContext(new NoSort());
-    const sortOption = new rxjs.BehaviorSubject('');
-
     setarEventoAcaoEditar(listaTarefasEl);
     setarEventoAcaoExcluirTarefa(listaTarefasEl);
     setarEventoAcaoAlterarStatusTarefa(listaTarefasEl);
-    setarEventoOrdenacao(selectOrdenarEl, sortOption);
 
     configurarFiltro({
         btnFiltrarEl,
@@ -29,33 +21,19 @@ export function configurarListaTarefas({
     });
 
     renderizarListaTarefasOnChanges({
-        ordenacaoContext,
-        sortOption,
+        controleOrdenacao,
         tarefasSubject,
         listaTarefasEl
     })
 
 }
 
-export function renderizarListaTarefasOnChanges({ ordenacaoContext, sortOption, tarefasSubject, listaTarefasEl }) {
+export function renderizarListaTarefasOnChanges({ controleOrdenacao, tarefasSubject, listaTarefasEl }) {
     rxjs
-    .combineLatest([sortOption, tarefasSubject])
-    .subscribe(([activeSort, tarefas]) => {
-        const tarefasOrdenadas = ordenarTarefas(ordenacaoContext, activeSort, tarefas); 
+    .combineLatest([controleOrdenacao.sortOption, tarefasSubject])
+    .subscribe(([activeSort, tarefas]) => { 
+        const tarefasOrdenadas = controleOrdenacao.ordenarTarefas(activeSort, tarefas);
         renderizarTarefas(tarefasOrdenadas, listaTarefasEl);
-    }) 
-}
-
-export function configurarFiltro({ btnFiltrarEl }) {
-    setarEventoAcaoFiltrarTarefa(btnFiltrarEl);
-    limparFiltro();
-}
-
-
-export function setarEventoOrdenacao(selectOrdenarEl, sortOption) {
-    selectOrdenarEl.change(() => {
-        const val = selectOrdenarEl.val();
-        sortOption.next(val);
     });
 }
 
@@ -108,27 +86,6 @@ export function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
         });
     });
 }
-
-
-
-export function setarEventoAcaoFiltrarTarefa(btnFiltrarEl) {
-    btnFiltrarEl.click(async () => {
-        const status = $('#status').val();
-        const dataInicio = $('#inpDataInicio').val();
-        const dataFim = $('#inpDataFim').val();
-
-        const tarefas = await filtrarPorStatusOuDatas(status, dataInicio, dataFim);
-        if (tarefas) tarefasSubject.next(tarefas);
-    });
-}
-
-export function limparFiltro() {
-    $('#btnLimparFiltro').click(() => {
-        recarregarTarefas();
-        $('#status, #inpDataInicio, #inpDataFim').val("");
-    });
-}
-
 
 export function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
