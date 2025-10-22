@@ -1,6 +1,7 @@
 import { filtroPorStatus } from "./tarefas.js";
 import { validarIntervaloDatas } from "../validacoes.js";
 
+
 export function configurarFiltro({ btnFiltrarEl, tarefasSubject, recarregarTarefas }) {
     setarEventoAcaoFiltrarTarefa(btnFiltrarEl, tarefasSubject);
     limparFiltro({ recarregarTarefas });
@@ -43,7 +44,7 @@ async function filtrarPorStatusOuDatas(status, dataInicio, dataFim, tarefasSubje
     return tarefas;
 }
 
-export function limparFiltro({ recarregarTarefas }) {
+function limparFiltro({ recarregarTarefas }) {
     $('#btnLimparFiltro').click(() => {
         recarregarTarefas();
         $('#status, #inpDataInicio, #inpDataFim').val("");

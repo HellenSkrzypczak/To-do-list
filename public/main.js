@@ -1,5 +1,5 @@
 import { inicializarCadastro } from './tarefas/cadastro.js';
-import { tarefasSubject } from './tarefas/tarefasSubject.js';
+import { tarefasSubject } from './tarefas/listaTarefas.js';
 import { configurarListaTarefas } from './tarefas/listaTarefas.js';
 import { filtroPorStatus } from './tarefas/tarefas.js';
 import { recarregarTarefas } from './tarefas/listaTarefas.js';
@@ -23,6 +23,5 @@ function main() {
 
   recarregarTarefas();
 }
-
 
 main();

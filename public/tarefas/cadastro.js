@@ -2,8 +2,7 @@ import { criarTarefa } from './tarefas.js';
 import {recarregarTarefas} from './listaTarefas.js';
 import { validarCamposObrigatorios, validarData } from '../validacoes.js';
 
-
-export function limparCampos(){
+function limparCampos(){
     $('#inputTitulo').val("");
     $('#inputDescricao').val("");
     $('#inputData').val("");

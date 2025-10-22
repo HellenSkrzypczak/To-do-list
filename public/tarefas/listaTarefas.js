@@ -1,8 +1,14 @@
 import { removerTarefa, mudarStatusTarefa, pegarTarefas } from './tarefas.js';
 import { abrirModalEditar } from '../modal.js';
-import { tarefasSubject } from './tarefasSubject.js';
+import { configurarFiltro } from './filtrarTarefas.js';
+import { criarControleOrdenacao } from '../ordenacao/ordenarTarefas.js';
+const { BehaviorSubject } = rxjs;
+
+const tarefasSubject = new BehaviorSubject([]);
+export { tarefasSubject };
 
 export function configurarListaTarefas({
+    selectOrdenarEl,
     listaTarefasEl, 
     btnFiltrarEl,  
     tarefasSubject, 
@@ -12,6 +18,8 @@ export function configurarListaTarefas({
     setarEventoAcaoEditar(listaTarefasEl);
     setarEventoAcaoExcluirTarefa(listaTarefasEl);
     setarEventoAcaoAlterarStatusTarefa(listaTarefasEl);
+
+    const controleOrdenacao = criarControleOrdenacao(selectOrdenarEl);
 
     configurarFiltro({
         btnFiltrarEl,
@@ -28,7 +36,7 @@ export function configurarListaTarefas({
 
 }
 
-export function renderizarListaTarefasOnChanges({ controleOrdenacao, tarefasSubject, listaTarefasEl }) {
+function renderizarListaTarefasOnChanges({ controleOrdenacao, tarefasSubject, listaTarefasEl }) {
     rxjs
     .combineLatest([controleOrdenacao.sortOption, tarefasSubject])
     .subscribe(([activeSort, tarefas]) => { 
@@ -37,7 +45,7 @@ export function renderizarListaTarefasOnChanges({ controleOrdenacao, tarefasSubj
     });
 }
 
-export function setarEventoAcaoEditar(listaTarefasEl) {
+function setarEventoAcaoEditar(listaTarefasEl) {
     listaTarefasEl.on('click', '.btnEditar', function() {
         const index = $(this).closest('.tarefa').index();
         const listaAtual = tarefasSubject.getValue();
@@ -46,7 +54,7 @@ export function setarEventoAcaoEditar(listaTarefasEl) {
     });
 }
 
-export function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
+function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
     listaTarefasEl.on('click', '.btnExcluir', async function() {
         const id = $(this).closest('.tarefa').data('id');
         $.confirm({
@@ -74,7 +82,7 @@ export function setarEventoAcaoExcluirTarefa(listaTarefasEl) {
     });    
 }
 
-export function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
+function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
     listaTarefasEl.on('change', '.tarefa__status', async function() {  
         const id = $(this).closest('.tarefa').data('id');
         const status = $(this).val();
@@ -87,7 +95,7 @@ export function setarEventoAcaoAlterarStatusTarefa(listaTarefasEl) {
     });
 }
 
-export function renderizarTarefas(lista, listaTarefasEl) {
+function renderizarTarefas(lista, listaTarefasEl) {
     listaTarefasEl.empty();
 
     lista.forEach((tarefa) => {

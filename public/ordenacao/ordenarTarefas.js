@@ -1,6 +1,6 @@
-import { NoSort, SortByDateAsc, SortByDateDesc, SortByTitleAsc, SortByTitleDesc, SortByStatus } from './ordenacaoStrategy.js';
+import { NoSort, SortByDateAsc, SortByDateDesc, SortByTitleAsc, SortByTitleDesc, SortByStatus, OrdenacaoContext } from './ordenacaoStrategy.js';
 
-export function ordenarTarefas(ordenacaoContext, sortOption, tarefas) {
+function ordenarTarefas(ordenacaoContext, sortOption, tarefas) {
     switch(sortOption) {
         case 'data-asc': ordenacaoContext.setStrategy(new SortByDateAsc()); break;
         case 'data-desc': ordenacaoContext.setStrategy(new SortByDateDesc()); break;
@@ -26,7 +26,7 @@ export function criarControleOrdenacao(selectOrdenarEl) {
     };
 }
 
-export function setarEventoOrdenacao(selectOrdenarEl, sortOption) {
+function setarEventoOrdenacao(selectOrdenarEl, sortOption) {
     selectOrdenarEl.change(() => {
         const val = selectOrdenarEl.val();
         sortOption.next(val);
